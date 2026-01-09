@@ -21,15 +21,9 @@ public class Pltt
 
     public void LoadFromFile(string filename)
     {
-        try
+        using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
         {
-            using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
-            {
-                this.LoadFromStream(fileStream);
-            }
-        }
-        catch (Exception ex)
-        {
+            this.LoadFromStream(fileStream);
         }
     }
 
@@ -41,9 +35,10 @@ public class Pltt
             return false;
         }
 
-        data.Seek(0, SeekOrigin.Begin);
-        this.FirstColour = (byte)data.ReadByte();
-        this.LastColour = (byte)data.ReadByte();
+        using var reader = new BinaryReader(data);
+        reader.BaseStream.Seek(0, SeekOrigin.Begin);
+        this.FirstColour = reader.ReadByte();
+        this.LastColour = reader.ReadByte();
 
         // Validate size of data
         if (dataSize != 3 + 3 * (this.LastColour - this.FirstColour + 1))
@@ -57,9 +52,9 @@ public class Pltt
             {
                 this.Colours[c] = new PlttColour()
                 {
-                    R = (byte)data.ReadByte(),
-                    G = (byte)data.ReadByte(),
-                    B = (byte)data.ReadByte(),
+                    R = reader.ReadByte(),
+                    G = reader.ReadByte(),
+                    B = reader.ReadByte(),
                 };
             }
             else
