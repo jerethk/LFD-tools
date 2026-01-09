@@ -33,7 +33,11 @@
             button2 = new Button();
             openDeltDialog = new OpenFileDialog();
             DisplayBox = new PictureBox();
+            button3 = new Button();
+            openAnimDialog = new OpenFileDialog();
+            spinner = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)DisplayBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)spinner).BeginInit();
             SuspendLayout();
             // 
             // openPlttDialog
@@ -53,7 +57,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(152, 23);
+            button2.Location = new Point(151, 23);
             button2.Name = "button2";
             button2.Size = new Size(94, 28);
             button2.TabIndex = 1;
@@ -71,23 +75,49 @@
             DisplayBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DisplayBox.BackColor = Color.Black;
             DisplayBox.BorderStyle = BorderStyle.FixedSingle;
-            DisplayBox.Location = new Point(22, 84);
+            DisplayBox.Location = new Point(281, 84);
             DisplayBox.Name = "DisplayBox";
-            DisplayBox.Size = new Size(1056, 563);
+            DisplayBox.Size = new Size(797, 563);
             DisplayBox.TabIndex = 2;
             DisplayBox.TabStop = false;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(281, 23);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 28);
+            button3.TabIndex = 3;
+            button3.Text = "openAnim";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // openAnimDialog
+            // 
+            openAnimDialog.Filter = "ANIM resource|*.anm;*.anim";
+            openAnimDialog.Title = "Open ANIM";
+            // 
+            // spinner
+            // 
+            spinner.Location = new Point(22, 84);
+            spinner.Name = "spinner";
+            spinner.Size = new Size(150, 27);
+            spinner.TabIndex = 4;
+            spinner.ValueChanged += spinner_ValueChanged;
             // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1112, 681);
+            Controls.Add(spinner);
+            Controls.Add(button3);
             Controls.Add(DisplayBox);
             Controls.Add(button2);
             Controls.Add(button1);
             Name = "MainWindow";
             Text = "Main Window";
             ((System.ComponentModel.ISupportInitialize)DisplayBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)spinner).EndInit();
             ResumeLayout(false);
         }
 
@@ -98,5 +128,8 @@
         private Button button2;
         private OpenFileDialog openDeltDialog;
         private PictureBox DisplayBox;
+        private Button button3;
+        private OpenFileDialog openAnimDialog;
+        private NumericUpDown spinner;
     }
 }
