@@ -1,4 +1,5 @@
 using LFD_Tools.DFTypes;
+using System.Drawing;
 using static LFD_Tools.Types.AppMode;
 
 namespace LFD_Tools
@@ -13,7 +14,7 @@ namespace LFD_Tools
             this.LoadBrfJanPltt();
             this.palette = this.brfJanPltt;
 
-            this.display = this.displayBox.CreateGraphics();
+            this.bitmaps = new();
             this.currentMode = Mode.NIL;
         }
 
@@ -24,8 +25,7 @@ namespace LFD_Tools
         private Delt? delt;
         private Anim? anim;
 
-        private Bitmap[]? bitmaps;
-        private Graphics display;
+        private List<Bitmap> bitmaps;
         private float scaleFactor = 2.0f;
 
         private void LoadBrfJanPltt()
@@ -41,53 +41,47 @@ namespace LFD_Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Load PLTT
             try
             {
-                this.LoadPalette();
+                var dlgResult = this.openPlttDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    this.palette.LoadFromFile(this.openPlttDialog.FileName);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error loading PLTT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // Load DELT
             try
             {
-                Delt delt = new Delt();
-                this.LoadDelt(delt);
-
-                var bitmap = delt.CreateBitmap(this.palette);
-                this.display.Clear(Color.Black);
-                this.display.DrawImage(
-                    bitmap,
-                    0,
-                    0,
-                    bitmap.Width * this.scaleFactor,
-                    bitmap.Height * this.scaleFactor);
+                var dlgResult = this.openDeltDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    this.LoadDelt(this.openDeltDialog.FileName);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error loading DELT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            // Load ANIM
             try
             {
-                this.anim = new();
-                this.LoadAnim(this.anim);
-
-                if (this.anim.NumDelts > 0)
+                var dlgResult = this.openAnimDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
                 {
-                    this.bitmaps = new Bitmap[this.anim.NumDelts];
-                    for (var d = 0; d < this.anim.NumDelts; d++)
-                    {
-                        if (this.anim.Delts?[d] == null) { continue; }
-                        this.bitmaps[d] = this.anim.Delts[d].Delt.CreateBitmap(this.palette);
-                    }
+                    this.LoadAnim(this.openAnimDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -96,54 +90,133 @@ namespace LFD_Tools
             }
         }
 
-        private void LoadPalette()
+        private void LoadDelt(string filename)
         {
-            var dlgResult = this.openPlttDialog.ShowDialog();
-            if (dlgResult == DialogResult.OK)
+            var delt = new Delt();
+            delt.LoadFromFile(filename);
+
+            this.delt = delt;
+            this.currentMode = Mode.DELT;
+            this.bitmaps.Clear();
+
+            var infoLines = new string[5];
+            infoLines[0] = $"DELT: {delt.Name}";
+            infoLines[1] = $"SizeX: {delt.SizeX}";
+            infoLines[2] = $"SizeY: {delt.SizeY}";
+            infoLines[3] = $"OffsetX: {delt.OffsetX}";
+            infoLines[4] = $"OffsetY: {delt.OffsetY}";
+            this.textBoxInfo.Lines = infoLines;
+
+            var bitmap = delt.CreateBitmap(this.palette);
+            if (bitmap == null)
             {
-                this.palette.LoadFromFile(this.openPlttDialog.FileName);
+                throw new Exception("Error creating bitmap");
             }
+
+            this.bitmaps.Add(bitmap);
+            this.SetupDisplay();
         }
 
-        private void LoadDelt(Delt delt)
+        private void LoadAnim(string filename)
         {
-            var dlgResult = this.openDeltDialog.ShowDialog();
-            if (dlgResult == DialogResult.OK)
+            var anim = new Anim();
+            anim.LoadFromFile(filename);
+
+            if (anim.Delts.Count != anim.NumDelts)
             {
-                delt.LoadFromFile(this.openDeltDialog.FileName);
+                throw new Exception("Error loading ANIM: incorrect number of DELTs");
             }
+
+            this.anim = anim;
+            this.currentMode = Mode.ANIM;
+            this.bitmaps.Clear();
+
+            var infoLines = new string[1];
+            infoLines[0] = $"ANIM: {anim.Name}";
+            this.textBoxInfo.Lines = infoLines;
+
+            if (this.anim.NumDelts > 0)
+            {
+                for (var d = 0; d < this.anim.NumDelts; d++)
+                {
+                    var bitmap = this.anim.Delts[d].Delt.CreateBitmap(this.palette);
+                    if (bitmap == null)
+                    {
+                        throw new Exception("Error creating bitmap");
+                    }
+                    this.bitmaps.Add(bitmap);
+                }
+            }
+
+            this.SetupDisplay();
         }
 
-        private void LoadAnim(Anim anim)
+        private void SetupDisplay()
         {
-            var dlgResult = this.openAnimDialog.ShowDialog();
-            if (dlgResult == DialogResult.OK)
+            if (this.bitmaps.Count == 0)
             {
-                anim.LoadFromFile(this.openAnimDialog.FileName);
+                return;
+            }
+
+            if (this.currentMode == Mode.DELT)
+            {
+                this.displayBox.Width = (int)(this.bitmaps[0].Width * this.scaleFactor);
+                this.displayBox.Height = (int)(this.bitmaps[0].Height * this.scaleFactor);
+            }
+
+            if (this.currentMode == Mode.ANIM)
+            {
+                this.displayBox.Width = (int)(this.bitmaps.Max(b => b.Width) * this.scaleFactor);
+                this.displayBox.Height = (int)(this.bitmaps.Max(b => b.Height) * this.scaleFactor);
             }
         }
 
         private void spinner_ValueChanged(object sender, EventArgs e)
         {
-            if (this.anim == null || this.anim.NumDelts == 0)
+
+        }
+
+        private void displayBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.currentMode == Mode.NIL)
             {
                 return;
             }
 
-            var index = (int)this.spinner.Value;
-            if (index < this.anim.NumDelts)
+            if (this.currentMode == Mode.DELT)
             {
-                if (this.bitmaps == null || this.bitmaps[index] == null)
+                if (this.delt == null || this.bitmaps.Count == 0)
                 {
                     return;
                 }
-                this.display.Clear(Color.Black);
-                this.display.DrawImage(
-                    this.bitmaps[index],
+
+                e.Graphics.Clear(Color.Black);
+                e.Graphics.DrawImage(
+                    this.bitmaps[0],
                     0,
                     0,
-                    this.bitmaps[index].Width * this.scaleFactor,
-                    this.bitmaps[index].Height * this.scaleFactor);
+                    this.bitmaps[0].Width * this.scaleFactor,
+                    this.bitmaps[0].Height * this.scaleFactor);
+            }
+
+            if (this.currentMode == Mode.ANIM)
+            {
+                if (this.anim == null || this.anim.NumDelts == 0 || this.bitmaps.Count == 0)
+                {
+                    return;
+                }
+
+                var index = (int)this.spinner.Value;
+                if (index < this.anim.NumDelts)
+                {
+                    e.Graphics.Clear(Color.Black);
+                    e.Graphics.DrawImage(
+                        this.bitmaps[index],
+                        0,
+                        0,
+                        this.bitmaps[index].Width * this.scaleFactor,
+                        this.bitmaps[index].Height * this.scaleFactor);
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ public class Delt
     {
     }
 
+    public string? Name { get; set; }
     public UInt16 OffsetX { get; set; }
     public UInt16 OffsetY { get; set; }
     public UInt16 SizeX { get; set; }
@@ -21,6 +22,8 @@ public class Delt
 
     public void LoadFromFile(string filename)
     {
+        this.Name = Path.GetFileName(filename).ToUpperInvariant();
+        
         using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
         {
             this.LoadFromStream(fileStream);
@@ -80,7 +83,7 @@ public class Delt
 
     public Bitmap? CreateBitmap(Pltt pltt, bool keepTransparent = true)
     {
-        if (this.Pixels == null || this.SizeX == 0 || this.SizeY == 0)
+        if (this.Pixels == null)
         {
             return null;
         }

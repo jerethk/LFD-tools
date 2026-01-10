@@ -10,14 +10,17 @@ public class Anim
 {
     public Anim()
     {
+        this.Delts = new();
     }
 
+    public string? Name { get; set; }
     public Int16 NumDelts { get; set; }
-
-    public AnimDelt[]? Delts { get; set; }
+    public List<AnimDelt> Delts { get; set; }
 
     public void LoadFromFile(string filename)
     {
+        this.Name = Path.GetFileName(filename).ToUpperInvariant();
+
         using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
         {
             this.LoadFromStream(fileStream);
@@ -28,9 +31,8 @@ public class Anim
     {
         using var reader = new BinaryReader(data);
         this.NumDelts = reader.ReadInt16();
-        this.Delts = new AnimDelt[this.NumDelts];
 
-        for (var delt = 0; delt < this.NumDelts; delt++)
+        for (var d = 0; d < this.NumDelts; d++)
         {
             var animDelt = new AnimDelt();
             animDelt.Size = reader.ReadInt32();
@@ -40,7 +42,7 @@ public class Anim
                 animDelt.Delt.LoadFromStream(deltData);
             }
 
-            this.Delts[delt] = animDelt;
+            this.Delts.Add(animDelt);
         }
     }
 

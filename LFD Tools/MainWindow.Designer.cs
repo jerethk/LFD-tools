@@ -76,14 +76,15 @@
             openDeltDialog.Filter = "DELT resource|*.dlt;*.delt";
             openDeltDialog.Title = "Open DELT";
             // 
-            // DisplayBox
+            // displayBox
             // 
             displayBox.BackColor = SystemColors.Control;
             displayBox.Location = new Point(0, 0);
-            displayBox.Name = "DisplayBox";
-            displayBox.Size = new Size(640, 600);
+            displayBox.Name = "displayBox";
+            displayBox.Size = new Size(200, 200);
             displayBox.TabIndex = 2;
             displayBox.TabStop = false;
+            displayBox.Paint += displayBox_Paint;
             // 
             // button3
             // 
@@ -100,13 +101,14 @@
             openAnimDialog.Filter = "ANIM resource|*.anm;*.anim";
             openAnimDialog.Title = "Open ANIM";
             // 
-            // DisplayPanel
+            // displayPanel
             // 
             displayPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            displayPanel.AutoScroll = true;
             displayPanel.BorderStyle = BorderStyle.FixedSingle;
             displayPanel.Controls.Add(displayBox);
             displayPanel.Location = new Point(337, 205);
-            displayPanel.Name = "DisplayPanel";
+            displayPanel.Name = "displayPanel";
             displayPanel.Size = new Size(1169, 616);
             displayPanel.TabIndex = 5;
             // 
@@ -136,12 +138,12 @@
             spinner.TabIndex = 4;
             spinner.ValueChanged += spinner_ValueChanged;
             // 
-            // TextBoxInfo
+            // textBoxInfo
             // 
             textBoxInfo.BackColor = SystemColors.Control;
             textBoxInfo.Location = new Point(38, 152);
             textBoxInfo.Multiline = true;
-            textBoxInfo.Name = "TextBoxInfo";
+            textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.Size = new Size(256, 226);
             textBoxInfo.TabIndex = 8;
             // 
