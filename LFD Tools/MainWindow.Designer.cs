@@ -38,12 +38,11 @@
             displayPanel = new Panel();
             comboBox1 = new ComboBox();
             label1 = new Label();
-            spinner = new NumericUpDown();
             textBoxInfo = new TextBox();
-            ListBoxSelectedImages = new CheckedListBox();
+            checkBoxMultiSelect = new CheckBox();
+            listBoxDelts = new ListBox();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)spinner).BeginInit();
             SuspendLayout();
             // 
             // openPlttDialog
@@ -84,7 +83,7 @@
             displayBox.Size = new Size(200, 200);
             displayBox.TabIndex = 2;
             displayBox.TabStop = false;
-            displayBox.Paint += displayBox_Paint;
+            displayBox.Paint += DisplayBox_Paint;
             // 
             // button3
             // 
@@ -130,42 +129,49 @@
             label1.TabIndex = 7;
             label1.Text = "Scale";
             // 
-            // spinner
-            // 
-            spinner.Location = new Point(882, 48);
-            spinner.Name = "spinner";
-            spinner.Size = new Size(150, 27);
-            spinner.TabIndex = 4;
-            spinner.ValueChanged += spinner_ValueChanged;
-            // 
             // textBoxInfo
             // 
             textBoxInfo.BackColor = SystemColors.Control;
             textBoxInfo.Location = new Point(38, 152);
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
+            textBoxInfo.ReadOnly = true;
             textBoxInfo.Size = new Size(256, 226);
             textBoxInfo.TabIndex = 8;
             // 
-            // ListBoxSelectedImages
+            // checkBoxMultiSelect
             // 
-            ListBoxSelectedImages.FormattingEnabled = true;
-            ListBoxSelectedImages.Location = new Point(38, 424);
-            ListBoxSelectedImages.Name = "ListBoxSelectedImages";
-            ListBoxSelectedImages.Size = new Size(256, 246);
-            ListBoxSelectedImages.TabIndex = 9;
+            checkBoxMultiSelect.AutoSize = true;
+            checkBoxMultiSelect.Location = new Point(38, 439);
+            checkBoxMultiSelect.Name = "checkBoxMultiSelect";
+            checkBoxMultiSelect.Size = new Size(172, 24);
+            checkBoxMultiSelect.TabIndex = 10;
+            checkBoxMultiSelect.Text = "Allow multi-selection";
+            checkBoxMultiSelect.UseVisualStyleBackColor = true;
+            checkBoxMultiSelect.Visible = false;
+            checkBoxMultiSelect.CheckedChanged += CheckBoxMultiSelect_CheckedChanged;
+            // 
+            // listBoxDelts
+            // 
+            listBoxDelts.FormattingEnabled = true;
+            listBoxDelts.Location = new Point(38, 479);
+            listBoxDelts.Name = "listBoxDelts";
+            listBoxDelts.Size = new Size(243, 304);
+            listBoxDelts.TabIndex = 11;
+            listBoxDelts.Visible = false;
+            listBoxDelts.SelectedIndexChanged += ListBoxDelts_SelectedIndexChanged;
             // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1542, 853);
-            Controls.Add(ListBoxSelectedImages);
+            Controls.Add(listBoxDelts);
+            Controls.Add(checkBoxMultiSelect);
             Controls.Add(textBoxInfo);
             Controls.Add(label1);
             Controls.Add(comboBox1);
             Controls.Add(displayPanel);
-            Controls.Add(spinner);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -173,7 +179,6 @@
             Text = "Main Window";
             ((System.ComponentModel.ISupportInitialize)displayBox).EndInit();
             displayPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)spinner).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,8 +195,8 @@
         private Panel displayPanel;
         private ComboBox comboBox1;
         private Label label1;
-        private NumericUpDown spinner;
         private TextBox textBoxInfo;
-        private CheckedListBox ListBoxSelectedImages;
+        private CheckBox checkBoxMultiSelect;
+        private ListBox listBoxDelts;
     }
 }

@@ -13,8 +13,8 @@ public class Delt
     }
 
     public string? Name { get; set; }
-    public UInt16 OffsetX { get; set; }
-    public UInt16 OffsetY { get; set; }
+    public Int16 OffsetX { get; set; }
+    public Int16 OffsetY { get; set; }
     public UInt16 SizeX { get; set; }
     public UInt16 SizeY { get; set; }
 
@@ -33,8 +33,8 @@ public class Delt
     public void LoadFromStream(Stream data)
     {
         using var reader = new BinaryReader(data);
-        this.OffsetX = (UInt16)reader.ReadInt16();
-        this.OffsetY = (UInt16)reader.ReadInt16();
+        this.OffsetX = (Int16)reader.ReadInt16();
+        this.OffsetY = (Int16)reader.ReadInt16();
         this.SizeX = (UInt16)(reader.ReadInt16() + 1);    // for some reason SizeX and SizeY are 1 less than actual...
         this.SizeY = (UInt16)(reader.ReadInt16() + 1);
 
@@ -83,7 +83,7 @@ public class Delt
 
     public Bitmap? CreateBitmap(Pltt pltt, bool keepTransparent = true)
     {
-        if (this.Pixels == null)
+        if (this.Pixels == null || this.SizeX == 0 || this.SizeY == 0)
         {
             return null;
         }
