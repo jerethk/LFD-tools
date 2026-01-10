@@ -1,4 +1,5 @@
 using LFD_Tools.DFTypes;
+using static LFD_Tools.Types.AppMode;
 
 namespace LFD_Tools
 {
@@ -7,12 +8,36 @@ namespace LFD_Tools
         public MainWindow()
         {
             InitializeComponent();
-            this.palette = new();
+
+            this.brfJanPltt = new();
+            this.LoadBrfJanPltt();
+            this.palette = this.brfJanPltt;
+
+            this.display = this.displayBox.CreateGraphics();
+            this.currentMode = Mode.NIL;
         }
 
+        private Mode currentMode;
+
         private Pltt palette;
+        private Pltt brfJanPltt;
+        private Delt? delt;
         private Anim? anim;
+
         private Bitmap[]? bitmaps;
+        private Graphics display;
+        private float scaleFactor = 2.0f;
+
+        private void LoadBrfJanPltt()
+        {
+            var data = Pltt.BrfJan.Split();
+            for (int c = 0; c < 256; c++)
+            {
+                this.brfJanPltt.Colours[c].R = Convert.ToByte(data[c * 3]);
+                this.brfJanPltt.Colours[c].G = Convert.ToByte(data[c * 3 + 1]);
+                this.brfJanPltt.Colours[c].B = Convert.ToByte(data[c * 3 + 2]);
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -34,7 +59,13 @@ namespace LFD_Tools
                 this.LoadDelt(delt);
 
                 var bitmap = delt.CreateBitmap(this.palette);
-                this.DisplayBox.Image = bitmap;
+                this.display.Clear(Color.Black);
+                this.display.DrawImage(
+                    bitmap,
+                    0,
+                    0,
+                    bitmap.Width * this.scaleFactor,
+                    bitmap.Height * this.scaleFactor);
             }
             catch (Exception ex)
             {
@@ -95,7 +126,7 @@ namespace LFD_Tools
         private void spinner_ValueChanged(object sender, EventArgs e)
         {
             if (this.anim == null || this.anim.NumDelts == 0)
-            { 
+            {
                 return;
             }
 
@@ -106,7 +137,13 @@ namespace LFD_Tools
                 {
                     return;
                 }
-                this.DisplayBox.Image = this.bitmaps[index];
+                this.display.Clear(Color.Black);
+                this.display.DrawImage(
+                    this.bitmaps[index],
+                    0,
+                    0,
+                    this.bitmaps[index].Width * this.scaleFactor,
+                    this.bitmaps[index].Height * this.scaleFactor);
             }
         }
     }
