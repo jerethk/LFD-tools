@@ -45,6 +45,17 @@ public class Anim
 
             this.Delts.Add(animDelt);
         }
+
+        // Validation checks
+        if (this.Delts.Count == 0)
+        {
+            throw new Exception("ANIM does not contains any DELTs!");
+        }
+
+        if (this.Delts.Count != this.NumDelts)
+        {
+            throw new Exception("Error loading ANIM: incorrect number of DELTs");
+        }
     }
 
     public record AnimDelt

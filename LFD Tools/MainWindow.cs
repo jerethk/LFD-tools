@@ -73,7 +73,11 @@ namespace LFD_Tools
                 var dlgResult = this.openDeltDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
-                    this.LoadDelt(this.openDeltDialog.FileName);
+                    var delt = new Delt();
+                    delt.LoadFromFile(this.openDeltDialog.FileName);
+                    this.delt = delt;
+
+                    this.SetupDelt();
                 }
             }
             catch (Exception ex)
@@ -90,7 +94,11 @@ namespace LFD_Tools
                 var dlgResult = this.openAnimDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
-                    this.LoadAnim(this.openAnimDialog.FileName);
+                    var anim = new Anim();
+                    anim.LoadFromFile(this.openAnimDialog.FileName);
+                    this.anim = anim;
+
+                    this.SetupAnim();
                 }
             }
             catch (Exception ex)
@@ -152,55 +160,37 @@ namespace LFD_Tools
             }
         }
 
-        private void LoadDelt(string filename)
+        private void SetupDelt()
         {
-            var delt = new Delt();
-            delt.LoadFromFile(filename);
-
-            this.delt = delt;
             this.currentMode = Mode.DELT;
             this.checkBoxMultiSelect.Visible = false;
             this.listBoxDelts.Visible = false;
 
             var infoLines = new string[5];
-            infoLines[0] = $"DELT {delt.Name}";
-            infoLines[1] = $"Width: {delt.SizeX}";
-            infoLines[2] = $"Height: {delt.SizeY}";
-            infoLines[3] = $"OffsetX: {delt.OffsetX}";
-            infoLines[4] = $"OffsetY: {delt.OffsetY}";
+            infoLines[0] = $"DELT {this.delt!.Name}";
+            infoLines[1] = $"Width: {this.delt.SizeX}";
+            infoLines[2] = $"Height: {this.delt.SizeY}";
+            infoLines[3] = $"OffsetX: {this.delt.OffsetX}";
+            infoLines[4] = $"OffsetY: {this.delt.OffsetY}";
             this.textBoxInfo.Lines = infoLines;
 
             this.bitmaps = new Bitmap[1];
-            var bitmap = delt.CreateBitmap(this.palette);
+            var bitmap = this.delt.CreateBitmap(this.palette);
             this.bitmaps[0] = bitmap!;
 
             this.SetDisplayBoxToBitmapSize(0);
             this.RedrawDeltImage();
         }
 
-        private void LoadAnim(string filename)
+        private void SetupAnim()
         {
-            var anim = new Anim();
-            anim.LoadFromFile(filename);
-
-            if (anim.Delts.Count == 0)
-            {
-                throw new Exception("ANIM does not contains any DELTs!");
-            }
-
-            if (anim.Delts.Count != anim.NumDelts)
-            {
-                throw new Exception("Error loading ANIM: incorrect number of DELTs");
-            }
-
-            this.anim = anim;
             this.currentMode = Mode.ANIM;
             this.checkBoxMultiSelect.Visible = true;
             this.listBoxDelts.Visible = true;
 
             var infoLines = new string[8];
-            infoLines[0] = $"ANIM {anim.Name}";
-            infoLines[1] = $"Contains {anim.NumDelts} DELTs";
+            infoLines[0] = $"ANIM {this.anim!.Name}";
+            infoLines[1] = $"Contains {this.anim.NumDelts} DELTs";
             infoLines[2] = string.Empty;
             this.textBoxInfo.Lines = infoLines;
 
@@ -533,7 +523,12 @@ namespace LFD_Tools
             {
                 try
                 {
+                    var delt = new Delt();
+                    delt.LoadFromStream(new MemoryStream(selectedResource.Data));
+                    delt.Name = selectedResource.Name;
+                    this.delt = delt;
 
+                    this.SetupDelt();
                 }
                 catch (Exception ex)
                 {
@@ -546,7 +541,12 @@ namespace LFD_Tools
             {
                 try
                 {
+                    var anim = new Anim();
+                    anim.LoadFromStream(new MemoryStream(selectedResource.Data));
+                    anim.Name = selectedResource.Name;
+                    this.anim = anim;
 
+                    this.SetupAnim();
                 }
                 catch (Exception ex)
                 {
