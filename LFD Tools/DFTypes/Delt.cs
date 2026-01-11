@@ -15,8 +15,8 @@ public class Delt
     public string? Name { get; set; }
     public Int16 OffsetX { get; set; }
     public Int16 OffsetY { get; set; }
-    public UInt16 SizeX { get; set; }
-    public UInt16 SizeY { get; set; }
+    public Int16 SizeX { get; set; }
+    public Int16 SizeY { get; set; }
 
     public int[,]? Pixels { get; set; }
 
@@ -35,14 +35,18 @@ public class Delt
         using var reader = new BinaryReader(data);
         this.OffsetX = (Int16)reader.ReadInt16();
         this.OffsetY = (Int16)reader.ReadInt16();
-        this.SizeX = (UInt16)(reader.ReadInt16() + 1);    // for some reason SizeX and SizeY are 1 less than actual...
-        this.SizeY = (UInt16)(reader.ReadInt16() + 1);
+        this.SizeX = (Int16)(reader.ReadInt16() + 1);    // for some reason SizeX and SizeY are 1 less than actual...
+        this.SizeY = (Int16)(reader.ReadInt16() + 1);
+
+        // Hack for bad data eg. CURSORS.ANIM
+        var sizeX = this.SizeX < 0 ? 0 : this.SizeX;
+        var sizeY = this.SizeY < 0 ? 0 : this.SizeY;
 
         // Set all pixels to transparent initially
-        this.Pixels = new int[this.SizeX, this.SizeY];
-        for (var x = 0; x < this.SizeX; x++)
+        this.Pixels = new int[sizeX, sizeY];
+        for (var x = 0; x < sizeX; x++)
         {
-            for (var y = 0; y < this.SizeY; y++)
+            for (var y = 0; y < sizeY; y++)
             {
                 this.Pixels[x, y] = -1;
             }
@@ -83,7 +87,7 @@ public class Delt
 
     public Bitmap? CreateBitmap(Pltt pltt, bool keepTransparent = true)
     {
-        if (this.Pixels == null || this.SizeX == 0 || this.SizeY == 0)
+        if (this.Pixels == null || this.SizeX <= 0 || this.SizeY <= 0)
         {
             return null;
         }
