@@ -42,6 +42,8 @@
             checkBoxMultiSelect = new CheckBox();
             listBoxDelts = new ListBox();
             label2 = new Label();
+            label3 = new Label();
+            labelPltt = new Label();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             SuspendLayout();
@@ -57,7 +59,7 @@
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 0;
-            button1.Text = "openPlt";
+            button1.Text = "openPltt";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -172,11 +174,32 @@
             label2.TabIndex = 12;
             label2.Text = "Info";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(38, 20);
+            label3.Name = "label3";
+            label3.Size = new Size(91, 20);
+            label3.TabIndex = 13;
+            label3.Text = "Current PLTT";
+            // 
+            // labelPltt
+            // 
+            labelPltt.AutoSize = true;
+            labelPltt.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPltt.Location = new Point(38, 48);
+            labelPltt.Name = "labelPltt";
+            labelPltt.Size = new Size(73, 20);
+            labelPltt.TabIndex = 14;
+            labelPltt.Text = "BRF-JAN";
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1542, 853);
+            Controls.Add(labelPltt);
+            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(listBoxDelts);
             Controls.Add(checkBoxMultiSelect);
@@ -211,5 +234,7 @@
         private CheckBox checkBoxMultiSelect;
         private ListBox listBoxDelts;
         private Label label2;
+        private Label label3;
+        private Label labelPltt;
     }
 }

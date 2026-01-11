@@ -16,8 +16,8 @@ namespace LFD_Tools
             this.brfJanPltt = new();
             this.LoadBrfJanPltt();
             this.palette = this.brfJanPltt;
+            this.labelPltt.Text = "BRF-JAN";
 
-            this.bitmaps = new();
             this.currentMode = Mode.NIL;
         }
 
@@ -28,7 +28,7 @@ namespace LFD_Tools
         private Delt? delt;
         private Anim? anim;
 
-        private List<Bitmap> bitmaps;
+        private Bitmap[]? bitmaps;
         private float scaleFactor = 2.0f;
 
         private void LoadBrfJanPltt()
@@ -50,7 +50,24 @@ namespace LFD_Tools
                 var dlgResult = this.openPlttDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
-                    this.palette.LoadFromFile(this.openPlttDialog.FileName);
+                    var pltt = new Pltt();
+                    pltt.LoadFromFile(this.openPlttDialog.FileName);
+                    this.palette = pltt;
+                    this.labelPltt.Text = pltt.Name;
+
+                    // Regenerate bitmaps
+                    if (this.currentMode == Mode.DELT && this.delt != null && this.bitmaps?.Length > 0)
+                    {
+                        var bitmap = this.delt.CreateBitmap(this.palette);
+                        this.bitmaps[0] = bitmap!;
+                        this.RedrawDeltImage();
+                    }
+
+                    if (this.currentMode == Mode.ANIM && this.anim != null && this.bitmaps?.Length > 0)
+                    {
+                        this.GenerateAnimBitmaps();
+                        this.RedrawAnimImage();
+                    }
                 }
             }
             catch (Exception ex)
@@ -102,7 +119,6 @@ namespace LFD_Tools
             this.currentMode = Mode.DELT;
             this.checkBoxMultiSelect.Visible = false;
             this.listBoxDelts.Visible = false;
-            this.bitmaps.Clear();
 
             var infoLines = new string[5];
             infoLines[0] = $"DELT {delt.Name}";
@@ -112,13 +128,10 @@ namespace LFD_Tools
             infoLines[4] = $"OffsetY: {delt.OffsetY}";
             this.textBoxInfo.Lines = infoLines;
 
+            this.bitmaps = new Bitmap[1];
             var bitmap = delt.CreateBitmap(this.palette);
-            if (bitmap == null)
-            {
-                throw new Exception("Error creating bitmap");
-            }
+            this.bitmaps[0] = bitmap!;
 
-            this.bitmaps.Add(bitmap);
             this.SetDisplayBoxToBitmapSize(0);
             this.RedrawDeltImage();
         }
@@ -140,7 +153,8 @@ namespace LFD_Tools
 
             this.anim = anim;
             this.currentMode = Mode.ANIM;
-            this.bitmaps.Clear();
+            this.checkBoxMultiSelect.Visible = true;
+            this.listBoxDelts.Visible = true;
 
             var infoLines = new string[8];
             infoLines[0] = $"ANIM {anim.Name}";
@@ -148,34 +162,34 @@ namespace LFD_Tools
             infoLines[2] = string.Empty;
             this.textBoxInfo.Lines = infoLines;
 
-            this.checkBoxMultiSelect.Visible = true;
-            this.listBoxDelts.Visible = true;
             this.listBoxDelts.Items.Clear();
             for (var d = 0; d < this.anim.NumDelts; d++)
             {
                 this.listBoxDelts.Items.Add($"DELT {d}");
             }
 
-            for (var d = 0; d < this.anim.NumDelts; d++)
-            {
-                var bitmap = this.anim.Delts[d].Delt.CreateBitmap(this.palette);
-                this.bitmaps.Add(bitmap!);
-            }
+            this.bitmaps = new Bitmap[this.anim.NumDelts];
+            this.GenerateAnimBitmaps();
 
             this.checkBoxMultiSelect.Checked = false;
             this.listBoxDelts.SelectedIndex = 0;
 
-            if (this.bitmaps.Count == 0)
-            {
-                return;
-            }
             this.SetDisplayBoxToBitmapSize(0);
             this.RedrawAnimImage();
         }
 
+        private void GenerateAnimBitmaps()
+        {
+            for (var d = 0; d < this.anim!.NumDelts; d++)
+            {
+                var bitmap = this.anim.Delts[d].Delt.CreateBitmap(this.palette);
+                this.bitmaps![d] = bitmap!;
+            }
+        }
+
         private void SetDisplayBoxToBitmapSize(int index)
         {
-            if (this.bitmaps[index] == null)
+            if (this.bitmaps![index] == null)
             {
                 this.displayBox.Width = 320;
                 this.displayBox.Height = 200;
@@ -189,9 +203,9 @@ namespace LFD_Tools
 
         private void SetDisplayBoxToMaxBitmapSize()
         {
-            var validBitmaps = this.bitmaps.Where(b => b != null);
-            this.displayBox.Width = (int)(validBitmaps.Max(b => b.Width) * this.scaleFactor);
-            this.displayBox.Height = (int)(validBitmaps.Max(b => b.Height) * this.scaleFactor);
+            var validBitmaps = this.bitmaps?.Where(b => b != null);
+            this.displayBox.Width = (int)(validBitmaps?.Max(b => b.Width) * this.scaleFactor ?? 0);
+            this.displayBox.Height = (int)(validBitmaps?.Max(b => b.Height) * this.scaleFactor ?? 0);
         }
 
         private void RedrawDeltImage()
@@ -243,7 +257,7 @@ namespace LFD_Tools
             {
                 var index = this.listBoxDelts.SelectedIndex;
 
-                if (this.anim == null || this.bitmaps.Count <= index)
+                if (this.anim == null)
                 {
                     return;
                 }
@@ -289,7 +303,7 @@ namespace LFD_Tools
                     break;
             }
 
-            if (this.bitmaps == null || this.bitmaps.Count == 0)
+            if (this.bitmaps == null || this.bitmaps.Length == 0)
             {
                 return;
             }
@@ -339,8 +353,15 @@ namespace LFD_Tools
 
         private void DrawDeltImage(Graphics graphics)
         {
-            if (this.delt == null || this.bitmaps.Count == 0)
+            if (this.delt == null || this.bitmaps == null || this.bitmaps.Length == 0)
             {
+                return;
+            }
+
+            if (this.bitmaps[0] == null)
+            {
+                graphics.Clear(SystemColors.Control);
+                graphics.DrawString("** EMPTY **", Control.DefaultFont, new SolidBrush(Color.Black), new PointF(10, 10));
                 return;
             }
 
@@ -355,7 +376,7 @@ namespace LFD_Tools
 
         private void DrawAnimImage(Graphics graphics)
         {
-            if (this.anim == null || this.anim.NumDelts == 0 || this.bitmaps.Count == 0)
+            if (this.anim == null || this.anim.NumDelts == 0 || this.bitmaps == null || this.bitmaps.Length == 0)
             {
                 return;
             }
