@@ -36,7 +36,7 @@
             button3 = new Button();
             openAnimDialog = new OpenFileDialog();
             displayPanel = new Panel();
-            comboBox1 = new ComboBox();
+            comboBoxScale = new ComboBox();
             label1 = new Label();
             textBoxInfo = new TextBox();
             checkBoxMultiSelect = new CheckBox();
@@ -111,14 +111,15 @@
             displayPanel.Size = new Size(1169, 616);
             displayPanel.TabIndex = 5;
             // 
-            // comboBox1
+            // comboBoxScale
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "100%", "200%", "300%", "400%" });
-            comboBox1.Location = new Point(338, 152);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 28);
-            comboBox1.TabIndex = 6;
+            comboBoxScale.FormattingEnabled = true;
+            comboBoxScale.Items.AddRange(new object[] { "100%", "200%", "300%", "400%" });
+            comboBoxScale.Location = new Point(338, 152);
+            comboBoxScale.Name = "comboBoxScale";
+            comboBoxScale.Size = new Size(151, 28);
+            comboBoxScale.TabIndex = 6;
+            comboBoxScale.SelectedIndexChanged += comboBoxScale_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -170,7 +171,7 @@
             Controls.Add(checkBoxMultiSelect);
             Controls.Add(textBoxInfo);
             Controls.Add(label1);
-            Controls.Add(comboBox1);
+            Controls.Add(comboBoxScale);
             Controls.Add(displayPanel);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -193,7 +194,7 @@
         private Button button3;
         private OpenFileDialog openAnimDialog;
         private Panel displayPanel;
-        private ComboBox comboBox1;
+        private ComboBox comboBoxScale;
         private Label label1;
         private TextBox textBoxInfo;
         private CheckBox checkBoxMultiSelect;

@@ -1,4 +1,5 @@
 using LFD_Tools.DFTypes;
+using System;
 using System.Drawing;
 using static LFD_Tools.Types.AppMode;
 
@@ -9,6 +10,8 @@ namespace LFD_Tools
         public MainWindow()
         {
             InitializeComponent();
+
+            this.comboBoxScale.SelectedIndex = 1;   // 200%
 
             this.brfJanPltt = new();
             this.LoadBrfJanPltt();
@@ -116,7 +119,8 @@ namespace LFD_Tools
             }
 
             this.bitmaps.Add(bitmap);
-            this.SetupDisplay();
+            this.SetDisplayBoxToBitmapSize(0);
+            this.RedrawDeltImage();
         }
 
         private void LoadAnim(string filename)
@@ -159,42 +163,49 @@ namespace LFD_Tools
 
             this.checkBoxMultiSelect.Checked = false;
             this.listBoxDelts.SelectedIndex = 0;
-            this.SetupDisplay();
-        }
 
-        private void SetupDisplay()
-        {
             if (this.bitmaps.Count == 0)
             {
                 return;
             }
-
-            this.SetDisplayBoxSizeToFirstBitmap();
-
-            using (var graphics = this.displayBox.CreateGraphics())
-            {
-                if (this.currentMode == Mode.DELT)
-                {
-                    this.DrawDeltImage(graphics);
-                }
-                if (this.currentMode == Mode.ANIM)
-                {
-                    this.DrawAnimImage(graphics);
-                }
-            }
+            this.SetDisplayBoxToBitmapSize(0);
+            this.RedrawAnimImage();
         }
 
-        private void SetDisplayBoxSizeToFirstBitmap()
+        private void SetDisplayBoxToBitmapSize(int index)
         {
-            if (this.bitmaps[0] != null)
-            {
-                this.displayBox.Width = (int)(this.bitmaps[0].Width * this.scaleFactor);
-                this.displayBox.Height = (int)(this.bitmaps[0].Height * this.scaleFactor);
-            }
-            else
+            if (this.bitmaps[index] == null)
             {
                 this.displayBox.Width = 320;
                 this.displayBox.Height = 200;
+            }
+            else
+            {
+                this.displayBox.Width = (int)(this.bitmaps[index].Width * this.scaleFactor);
+                this.displayBox.Height = (int)(this.bitmaps[index].Height * this.scaleFactor);
+            }
+        }
+
+        private void SetDisplayBoxToMaxBitmapSize()
+        {
+            var validBitmaps = this.bitmaps.Where(b => b != null);
+            this.displayBox.Width = (int)(validBitmaps.Max(b => b.Width) * this.scaleFactor);
+            this.displayBox.Height = (int)(validBitmaps.Max(b => b.Height) * this.scaleFactor);
+        }
+
+        private void RedrawDeltImage()
+        {
+            using (var graphics = this.displayBox.CreateGraphics())
+            {
+                this.DrawDeltImage(graphics);
+            }
+        }
+
+        private void RedrawAnimImage()
+        {
+            using (var graphics = this.displayBox.CreateGraphics())
+            {
+                this.DrawAnimImage(graphics);
             }
         }
 
@@ -206,20 +217,15 @@ namespace LFD_Tools
 
             if (checkBoxMultiSelect.Checked)
             {
-                var validBitmaps = this.bitmaps.Where(b => b != null);
-                this.displayBox.Width = (int)(validBitmaps.Max(b => b.Width) * this.scaleFactor);
-                this.displayBox.Height = (int)(validBitmaps.Max(b => b.Height) * this.scaleFactor);
+                this.SetDisplayBoxToMaxBitmapSize();
             }
             else
             {
                 this.listBoxDelts.SelectedIndex = 0;
-                this.SetDisplayBoxSizeToFirstBitmap();
+                this.SetDisplayBoxToBitmapSize(0);
             }
 
-            using (var graphics = this.displayBox.CreateGraphics())
-            {
-                this.DrawAnimImage(graphics);
-            }
+            this.RedrawAnimImage();
         }
 
         private void ListBoxDelts_SelectedIndexChanged(object sender, EventArgs e)
@@ -238,22 +244,58 @@ namespace LFD_Tools
                     return;
                 }
 
-                if (this.bitmaps[index] == null)
+                this.SetDisplayBoxToBitmapSize(index);
+            }
+
+            this.RedrawAnimImage();
+        }
+
+        private void comboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.comboBoxScale.SelectedIndex)
+            {
+                case 0:
+                    this.scaleFactor = 1.0f;
+                    break;
+                case 1:
+                    this.scaleFactor = 2.0f;
+                    break;
+                case 2:
+                    this.scaleFactor = 3.0f;
+                    break;
+                case 3:
+                    this.scaleFactor = 4.0f;
+                    break;
+                default:
+                    this.scaleFactor = 2.0f;
+                    break;
+            }
+
+            if (this.bitmaps == null || this.bitmaps.Count == 0)
+            {
+                return;
+            }
+
+            if (this.currentMode == Mode.DELT)
+            {
+                this.SetDisplayBoxToBitmapSize(0);
+                this.RedrawDeltImage();
+                return;
+            }
+            if (this.currentMode == Mode.ANIM)
+            {
+                if (this.checkBoxMultiSelect.Checked)
                 {
-                    this.displayBox.Width = 320;
-                    this.displayBox.Height = 200;
+                    this.SetDisplayBoxToMaxBitmapSize();
                 }
                 else
                 {
-                    this.displayBox.Width = (int)(this.bitmaps[index].Width * this.scaleFactor);
-                    this.displayBox.Height = (int)(this.bitmaps[index].Height * this.scaleFactor);
-
+                    var index = this.listBoxDelts.SelectedIndex;
+                    this.SetDisplayBoxToBitmapSize(index);
                 }
-            }
 
-            using (var graphics = this.displayBox.CreateGraphics())
-            {
-                this.DrawAnimImage(graphics);
+                this.RedrawAnimImage();
+                return;
             }
         }
 
