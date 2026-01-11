@@ -9,6 +9,6 @@ public static class AppMode
         NIL,
         DELT,
         ANIM,
-        LFD,
+        // LFD,
     }
 }

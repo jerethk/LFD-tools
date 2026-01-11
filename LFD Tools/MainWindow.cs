@@ -11,6 +11,7 @@ namespace LFD_Tools
         {
             InitializeComponent();
 
+            lfdPanel.Visible = false;
             this.comboBoxScale.SelectedIndex = 1;   // 200%
 
             this.brfJanPltt = new();
@@ -27,6 +28,7 @@ namespace LFD_Tools
         private Pltt brfJanPltt;
         private Delt? delt;
         private Anim? anim;
+        private Lfd? lfd;
 
         private Bitmap[]? bitmaps;
         private float scaleFactor = 2.0f;
@@ -106,7 +108,41 @@ namespace LFD_Tools
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error loading ANIM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Load LFD
+            try
+            {
+                var dlgResult = this.openLfdDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    this.LoadLfd(this.openLfdDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error loading LFD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadLfd(string filename)
+        {
+            var lfd = new Lfd();
+            lfd.LoadFromFile(filename);
+            this.lfd = lfd;
+
+            lfdPanel.Visible = true;
+            labelLfd.Text = Path.GetFileName(filename);
+            listBoxLfdContents.Items.Clear();
+
+            for (int i = 0; i < lfd.Resources.Count; i++)
+            {
+                listBoxLfdContents.Items.Add(lfd.Resources[i]);
+                listBoxLfdContents.DisplayMember = nameof(LfdResource.Label);
             }
         }
 
