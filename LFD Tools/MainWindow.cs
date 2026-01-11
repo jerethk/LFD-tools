@@ -105,9 +105,9 @@ namespace LFD_Tools
             this.bitmaps.Clear();
 
             var infoLines = new string[5];
-            infoLines[0] = $"DELT: {delt.Name}";
-            infoLines[1] = $"SizeX: {delt.SizeX}";
-            infoLines[2] = $"SizeY: {delt.SizeY}";
+            infoLines[0] = $"DELT {delt.Name}";
+            infoLines[1] = $"Width: {delt.SizeX}";
+            infoLines[2] = $"Height: {delt.SizeY}";
             infoLines[3] = $"OffsetX: {delt.OffsetX}";
             infoLines[4] = $"OffsetY: {delt.OffsetY}";
             this.textBoxInfo.Lines = infoLines;
@@ -142,9 +142,10 @@ namespace LFD_Tools
             this.currentMode = Mode.ANIM;
             this.bitmaps.Clear();
 
-            var infoLines = new string[2];
-            infoLines[0] = $"ANIM: {anim.Name}";
+            var infoLines = new string[8];
+            infoLines[0] = $"ANIM {anim.Name}";
             infoLines[1] = $"Contains {anim.NumDelts} DELTs";
+            infoLines[2] = string.Empty;
             this.textBoxInfo.Lines = infoLines;
 
             this.checkBoxMultiSelect.Visible = true;
@@ -218,6 +219,14 @@ namespace LFD_Tools
             if (checkBoxMultiSelect.Checked)
             {
                 this.SetDisplayBoxToMaxBitmapSize();
+
+                // Don't show individual DELT info
+                var infoLines = this.textBoxInfo.Lines;
+                for (int i = 3; i < infoLines.Length; i++)
+                {
+                    infoLines[i] = string.Empty;
+                }
+                this.textBoxInfo.Lines = infoLines;
             }
             else
             {
@@ -245,6 +254,15 @@ namespace LFD_Tools
                 }
 
                 this.SetDisplayBoxToBitmapSize(index);
+
+                // Single DELT info
+                var infoLines = this.textBoxInfo.Lines;
+                infoLines[3] = $"DELT {index}";
+                infoLines[4] = $"Width: {anim.Delts[index].Delt.SizeX}";
+                infoLines[5] = $"Height: {anim.Delts[index].Delt.SizeY}";
+                infoLines[6] = $"OffsetX: {anim.Delts[index].Delt.OffsetX}";
+                infoLines[7] = $"OffsetY: {anim.Delts[index].Delt.OffsetY}";
+                this.textBoxInfo.Lines = infoLines;
             }
 
             this.RedrawAnimImage();

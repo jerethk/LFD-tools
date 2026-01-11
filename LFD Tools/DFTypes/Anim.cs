@@ -19,7 +19,7 @@ public class Anim
 
     public void LoadFromFile(string filename)
     {
-        this.Name = Path.GetFileName(filename).ToUpperInvariant();
+        this.Name = Path.GetFileNameWithoutExtension(filename).ToUpperInvariant();
 
         using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
         {
@@ -31,6 +31,7 @@ public class Anim
     {
         using var reader = new BinaryReader(data);
         this.NumDelts = reader.ReadInt16();
+        this.Delts.Clear();
 
         for (var d = 0; d < this.NumDelts; d++)
         {

@@ -41,6 +41,7 @@
             textBoxInfo = new TextBox();
             checkBoxMultiSelect = new CheckBox();
             listBoxDelts = new ListBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             SuspendLayout();
@@ -137,7 +138,7 @@
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
-            textBoxInfo.Size = new Size(256, 226);
+            textBoxInfo.Size = new Size(256, 238);
             textBoxInfo.TabIndex = 8;
             // 
             // checkBoxMultiSelect
@@ -162,11 +163,21 @@
             listBoxDelts.Visible = false;
             listBoxDelts.SelectedIndexChanged += ListBoxDelts_SelectedIndexChanged;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(38, 129);
+            label2.Name = "label2";
+            label2.Size = new Size(35, 20);
+            label2.TabIndex = 12;
+            label2.Text = "Info";
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1542, 853);
+            Controls.Add(label2);
             Controls.Add(listBoxDelts);
             Controls.Add(checkBoxMultiSelect);
             Controls.Add(textBoxInfo);
@@ -199,5 +210,6 @@
         private TextBox textBoxInfo;
         private CheckBox checkBoxMultiSelect;
         private ListBox listBoxDelts;
+        private Label label2;
     }
 }
