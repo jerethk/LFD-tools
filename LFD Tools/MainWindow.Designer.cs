@@ -45,12 +45,13 @@
             label3 = new Label();
             labelPltt = new Label();
             lfdPanel = new Panel();
+            btnOpenResource = new Button();
+            listBoxLfdContents = new ListBox();
+            labelLfd = new Label();
+            label4 = new Label();
             mainPanel = new Panel();
             button4 = new Button();
             openLfdDialog = new OpenFileDialog();
-            label4 = new Label();
-            labelLfd = new Label();
-            listBoxLfdContents = new ListBox();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -205,6 +206,7 @@
             // lfdPanel
             // 
             lfdPanel.BorderStyle = BorderStyle.FixedSingle;
+            lfdPanel.Controls.Add(btnOpenResource);
             lfdPanel.Controls.Add(listBoxLfdContents);
             lfdPanel.Controls.Add(labelLfd);
             lfdPanel.Controls.Add(label4);
@@ -214,6 +216,45 @@
             lfdPanel.Size = new Size(363, 853);
             lfdPanel.TabIndex = 16;
             lfdPanel.Visible = false;
+            // 
+            // btnOpenResource
+            // 
+            btnOpenResource.Enabled = false;
+            btnOpenResource.Location = new Point(102, 709);
+            btnOpenResource.Name = "btnOpenResource";
+            btnOpenResource.Size = new Size(146, 63);
+            btnOpenResource.TabIndex = 3;
+            btnOpenResource.Text = "Open Selected Resource";
+            btnOpenResource.UseVisualStyleBackColor = true;
+            btnOpenResource.Click += btnOpenResource_Click;
+            // 
+            // listBoxLfdContents
+            // 
+            listBoxLfdContents.FormattingEnabled = true;
+            listBoxLfdContents.Location = new Point(24, 158);
+            listBoxLfdContents.Name = "listBoxLfdContents";
+            listBoxLfdContents.Size = new Size(305, 524);
+            listBoxLfdContents.TabIndex = 2;
+            listBoxLfdContents.SelectedIndexChanged += listBoxLfdContents_SelectedIndexChanged;
+            // 
+            // labelLfd
+            // 
+            labelLfd.AutoSize = true;
+            labelLfd.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelLfd.Location = new Point(24, 54);
+            labelLfd.Name = "labelLfd";
+            labelLfd.Size = new Size(51, 20);
+            labelLfd.TabIndex = 1;
+            labelLfd.Text = "label5";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(24, 26);
+            label4.Name = "label4";
+            label4.Size = new Size(34, 20);
+            label4.TabIndex = 0;
+            label4.Text = "LFD";
             // 
             // mainPanel
             // 
@@ -250,33 +291,6 @@
             // 
             openLfdDialog.Filter = "LFD file|*.lfd";
             openLfdDialog.Title = "Open LFD";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(24, 26);
-            label4.Name = "label4";
-            label4.Size = new Size(34, 20);
-            label4.TabIndex = 0;
-            label4.Text = "LFD";
-            // 
-            // labelLfd
-            // 
-            labelLfd.AutoSize = true;
-            labelLfd.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelLfd.Location = new Point(24, 54);
-            labelLfd.Name = "labelLfd";
-            labelLfd.Size = new Size(51, 20);
-            labelLfd.TabIndex = 1;
-            labelLfd.Text = "label5";
-            // 
-            // listBoxLfdContents
-            // 
-            listBoxLfdContents.FormattingEnabled = true;
-            listBoxLfdContents.Location = new Point(24, 158);
-            listBoxLfdContents.Name = "listBoxLfdContents";
-            listBoxLfdContents.Size = new Size(305, 484);
-            listBoxLfdContents.TabIndex = 2;
             // 
             // MainWindow
             // 
@@ -321,5 +335,6 @@
         private Label labelLfd;
         private Label label4;
         private ListBox listBoxLfdContents;
+        private Button btnOpenResource;
     }
 }

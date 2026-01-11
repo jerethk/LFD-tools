@@ -55,21 +55,8 @@ namespace LFD_Tools
                     var pltt = new Pltt();
                     pltt.LoadFromFile(this.openPlttDialog.FileName);
                     this.palette = pltt;
-                    this.labelPltt.Text = pltt.Name;
 
-                    // Regenerate bitmaps
-                    if (this.currentMode == Mode.DELT && this.delt != null && this.bitmaps?.Length > 0)
-                    {
-                        var bitmap = this.delt.CreateBitmap(this.palette);
-                        this.bitmaps[0] = bitmap!;
-                        this.RedrawDeltImage();
-                    }
-
-                    if (this.currentMode == Mode.ANIM && this.anim != null && this.bitmaps?.Length > 0)
-                    {
-                        this.GenerateAnimBitmaps();
-                        this.RedrawAnimImage();
-                    }
+                    this.SetupPltt();
                 }
             }
             catch (Exception ex)
@@ -143,6 +130,25 @@ namespace LFD_Tools
             {
                 listBoxLfdContents.Items.Add(lfd.Resources[i]);
                 listBoxLfdContents.DisplayMember = nameof(LfdResource.Label);
+            }
+        }
+
+        private void SetupPltt()
+        {
+            this.labelPltt.Text = this.palette.Name;
+
+            // Regenerate bitmaps
+            if (this.currentMode == Mode.DELT && this.delt != null && this.bitmaps?.Length > 0)
+            {
+                var bitmap = this.delt.CreateBitmap(this.palette);
+                this.bitmaps[0] = bitmap!;
+                this.RedrawDeltImage();
+            }
+
+            if (this.currentMode == Mode.ANIM && this.anim != null && this.bitmaps?.Length > 0)
+            {
+                this.GenerateAnimBitmaps();
+                this.RedrawAnimImage();
             }
         }
 
@@ -465,6 +471,88 @@ namespace LFD_Tools
                     0,
                     this.bitmaps[index].Width * this.scaleFactor,
                     this.bitmaps[index].Height * this.scaleFactor);
+            }
+        }
+
+        private void listBoxLfdContents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxLfdContents.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            var selectedResource = this.listBoxLfdContents.SelectedItem as LfdResource;
+            if (selectedResource == null)
+            {
+                return;
+            }
+
+            var type = selectedResource.ResourceType;
+            if (type == ResourceType.PLTT || type == ResourceType.DELT || type == ResourceType.ANIM)
+            {
+                btnOpenResource.Enabled = true;
+            }
+            else
+            {
+                btnOpenResource.Enabled = false;
+            }
+        }
+
+        private void btnOpenResource_Click(object sender, EventArgs e)
+        {
+            var selectedResource = this.listBoxLfdContents.SelectedItem as LfdResource;
+            if (selectedResource == null)
+            {
+                return;
+            }
+            if (selectedResource.Data == null)
+            {
+                MessageBox.Show("Data for resource is empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (selectedResource.ResourceType == ResourceType.PLTT)
+            {
+                try
+                {
+                    var pltt = new Pltt();
+                    pltt.LoadFromStream(new MemoryStream(selectedResource.Data));
+                    pltt.Name = selectedResource.Name;
+                    this.palette = pltt;
+
+                    this.SetupPltt();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error loading PLTT.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+
+            if (selectedResource.ResourceType == ResourceType.DELT)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error loading DELT.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+
+            if (selectedResource.ResourceType == ResourceType.ANIM)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error loading ANIM.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
             }
         }
     }
