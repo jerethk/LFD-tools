@@ -48,6 +48,8 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
+            label6 = new Label();
+            comboBoxDisplayBackground = new ComboBox();
             label5 = new Label();
             labelResourceName = new Label();
             openLfdDialog = new OpenFileDialog();
@@ -239,6 +241,8 @@
             // mainPanel
             // 
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(label6);
+            mainPanel.Controls.Add(comboBoxDisplayBackground);
             mainPanel.Controls.Add(label5);
             mainPanel.Controls.Add(labelResourceName);
             mainPanel.Controls.Add(label3);
@@ -255,6 +259,25 @@
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(1259, 808);
             mainPanel.TabIndex = 15;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(647, 98);
+            label6.Name = "label6";
+            label6.Size = new Size(141, 20);
+            label6.TabIndex = 18;
+            label6.Text = "Display background";
+            // 
+            // comboBoxDisplayBackground
+            // 
+            comboBoxDisplayBackground.FormattingEnabled = true;
+            comboBoxDisplayBackground.Items.AddRange(new object[] { "Black", "White", "Grey" });
+            comboBoxDisplayBackground.Location = new Point(805, 95);
+            comboBoxDisplayBackground.Name = "comboBoxDisplayBackground";
+            comboBoxDisplayBackground.Size = new Size(151, 28);
+            comboBoxDisplayBackground.TabIndex = 17;
+            comboBoxDisplayBackground.SelectedIndexChanged += ComboBoxDisplayBackground_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -412,5 +435,7 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton toolStripButtonExport;
         private SaveFileDialog savePngDialog;
+        private Label label6;
+        private ComboBox comboBoxDisplayBackground;
     }
 }

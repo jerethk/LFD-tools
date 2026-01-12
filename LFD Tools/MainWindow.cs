@@ -15,7 +15,8 @@ namespace LFD_Tools
 
             lfdPanel.Visible = false;
             this.comboBoxScale.SelectedIndex = 1;   // 200%
-            //this.toolStripButtonExport.Enabled = false;
+            this.comboBoxDisplayBackground.SelectedIndex = 0; // Black
+            this.toolStripButtonExport.Enabled = false;
 
             this.brfJanPltt = new();
             this.LoadBrfJanPltt();
@@ -35,6 +36,7 @@ namespace LFD_Tools
 
         private Bitmap[]? bitmaps;
         private float scaleFactor = 2.0f;
+        private Color displayBackground = Color.Black;
 
         private string? resourcePath;
         private string? lfdPath;
@@ -392,6 +394,41 @@ namespace LFD_Tools
             }
         }
 
+        private void ComboBoxDisplayBackground_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.comboBoxDisplayBackground.SelectedIndex)
+            {
+                case 0:
+                    this.displayBackground = Color.Black;
+                    break;
+                case 1:
+                    this.displayBackground = Color.White;
+                    break;
+                case 2:
+                    this.displayBackground = Color.Gray;
+                    break;
+                default:
+                    this.displayBackground = Color.Black;
+                    break;
+            }
+
+            if (this.bitmaps == null || this.bitmaps.Length == 0)
+            {
+                return;
+            }
+
+            if (this.currentMode == Mode.DELT)
+            {
+                this.RedrawDeltImage();
+                return;
+            }
+            if (this.currentMode == Mode.ANIM)
+            {
+                this.RedrawAnimImage();
+                return;
+            }
+        }
+
         private void DisplayBox_Paint(object sender, PaintEventArgs e)
         {
             if (this.currentMode == Mode.NIL)
@@ -426,7 +463,7 @@ namespace LFD_Tools
                 return;
             }
 
-            graphics.Clear(Color.Black);
+            graphics.Clear(displayBackground);
             graphics.DrawImage(
                 this.bitmaps[0],
                 0,
@@ -442,7 +479,7 @@ namespace LFD_Tools
                 return;
             }
 
-            graphics.Clear(Color.Black);
+            graphics.Clear(displayBackground);
 
             if (this.checkBoxMultiSelect.Checked)
             {
@@ -658,7 +695,7 @@ namespace LFD_Tools
 
                         this.bitmaps[i].Save(path, ImageFormat.Png);
                     }
-                    
+
                     this.exportPath = Path.GetDirectoryName(this.savePngDialog.FileName);
                     MessageBox.Show("Export successful", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
