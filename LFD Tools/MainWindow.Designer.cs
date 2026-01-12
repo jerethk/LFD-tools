@@ -63,6 +63,7 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripButtonExport = new ToolStripButton();
             savePngDialog = new SaveFileDialog();
+            checkBoxSubtractOffsets = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -103,7 +104,7 @@
             displayPanel.Controls.Add(displayBox);
             displayPanel.Location = new Point(336, 140);
             displayPanel.Name = "displayPanel";
-            displayPanel.Size = new Size(894, 634);
+            displayPanel.Size = new Size(894, 654);
             displayPanel.TabIndex = 5;
             // 
             // comboBoxScale
@@ -132,13 +133,13 @@
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
-            textBoxInfo.Size = new Size(256, 190);
+            textBoxInfo.Size = new Size(256, 173);
             textBoxInfo.TabIndex = 8;
             // 
             // checkBoxMultiSelect
             // 
             checkBoxMultiSelect.AutoSize = true;
-            checkBoxMultiSelect.Location = new Point(36, 377);
+            checkBoxMultiSelect.Location = new Point(36, 390);
             checkBoxMultiSelect.Name = "checkBoxMultiSelect";
             checkBoxMultiSelect.Size = new Size(172, 24);
             checkBoxMultiSelect.TabIndex = 10;
@@ -150,7 +151,7 @@
             // listBoxDelts
             // 
             listBoxDelts.FormattingEnabled = true;
-            listBoxDelts.Location = new Point(36, 410);
+            listBoxDelts.Location = new Point(36, 430);
             listBoxDelts.Name = "listBoxDelts";
             listBoxDelts.Size = new Size(243, 364);
             listBoxDelts.TabIndex = 11;
@@ -195,7 +196,7 @@
             lfdPanel.Dock = DockStyle.Left;
             lfdPanel.Location = new Point(0, 45);
             lfdPanel.Name = "lfdPanel";
-            lfdPanel.Size = new Size(363, 808);
+            lfdPanel.Size = new Size(363, 828);
             lfdPanel.TabIndex = 16;
             lfdPanel.Visible = false;
             // 
@@ -241,6 +242,7 @@
             // mainPanel
             // 
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(checkBoxSubtractOffsets);
             mainPanel.Controls.Add(label6);
             mainPanel.Controls.Add(comboBoxDisplayBackground);
             mainPanel.Controls.Add(label5);
@@ -257,7 +259,7 @@
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(363, 45);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(1259, 808);
+            mainPanel.Size = new Size(1259, 828);
             mainPanel.TabIndex = 15;
             // 
             // label6
@@ -378,16 +380,27 @@
             savePngDialog.Filter = "PNG images|*.png";
             savePngDialog.Title = "Export Resource";
             // 
+            // checkBoxSubtractOffsets
+            // 
+            checkBoxSubtractOffsets.AutoSize = true;
+            checkBoxSubtractOffsets.Location = new Point(36, 327);
+            checkBoxSubtractOffsets.Name = "checkBoxSubtractOffsets";
+            checkBoxSubtractOffsets.Size = new Size(222, 24);
+            checkBoxSubtractOffsets.TabIndex = 19;
+            checkBoxSubtractOffsets.Text = "Subtract offsets from images";
+            checkBoxSubtractOffsets.UseVisualStyleBackColor = true;
+            checkBoxSubtractOffsets.CheckedChanged += CheckBoxSubtractOffsets_CheckedChanged;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1622, 853);
+            ClientSize = new Size(1622, 873);
             Controls.Add(mainPanel);
             Controls.Add(lfdPanel);
             Controls.Add(toolStrip);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1500, 900);
+            MinimumSize = new Size(1500, 920);
             Name = "MainWindow";
             Text = "LFD Tools version 0.9";
             ((System.ComponentModel.ISupportInitialize)displayBox).EndInit();
@@ -437,5 +450,6 @@
         private SaveFileDialog savePngDialog;
         private Label label6;
         private ComboBox comboBoxDisplayBackground;
+        private CheckBox checkBoxSubtractOffsets;
     }
 }

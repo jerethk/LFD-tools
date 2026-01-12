@@ -85,21 +85,24 @@ public class Delt
         }
     }
 
-    public Bitmap? CreateBitmap(Pltt pltt, bool keepTransparent = true)
+    public Bitmap? CreateBitmap(Pltt pltt, bool subtractOffsets, bool keepTransparent = true)
     {
         if (this.Pixels == null || this.SizeX <= 0 || this.SizeY <= 0)
         {
             return null;
         }
 
-        var bitmap = new Bitmap(this.SizeX, this.SizeY);
+        var offsetX = subtractOffsets ? this.OffsetX : 0;
+        var offsetY = subtractOffsets ? this.OffsetY : 0;
+        
+        var bitmap = new Bitmap(this.SizeX - offsetX, this.SizeY - offsetY);
         var alpha = keepTransparent ? 0 : 255;
 
-        for (var x = 0; x < this.SizeX; x++)
+        for (var x = 0; x < this.SizeX - offsetX; x++)
         {
-            for (var y = 0; y < this.SizeY; y++)
+            for (var y = 0; y < this.SizeY - offsetY; y++)
             {
-                var index = this.Pixels[x, y];
+                var index = this.Pixels[x + offsetX, y + offsetY];
                 var colour = index == -1
                     ? Color.FromArgb(alpha, 0, 0, 0)
                     : Color.FromArgb(255, pltt.Colours[index].R, pltt.Colours[index].G, pltt.Colours[index].B);

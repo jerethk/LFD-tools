@@ -174,18 +174,20 @@ namespace LFD_Tools
         {
             this.labelPltt.Text = this.palette.Name;
 
-            // Regenerate bitmaps
+            // Regenerate bitmaps, then redraw
             if (this.currentMode == Mode.DELT && this.delt != null && this.bitmaps?.Length > 0)
             {
-                var bitmap = this.delt.CreateBitmap(this.palette);
+                var bitmap = this.delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
                 this.bitmaps[0] = bitmap!;
                 this.RedrawDeltImage();
+                return;
             }
 
             if (this.currentMode == Mode.ANIM && this.anim != null && this.bitmaps?.Length > 0)
             {
                 this.GenerateAnimBitmaps();
                 this.RedrawAnimImage();
+                return;
             }
         }
 
@@ -204,7 +206,7 @@ namespace LFD_Tools
             this.textBoxInfo.Lines = infoLines;
 
             this.bitmaps = new Bitmap[1];
-            var bitmap = this.delt.CreateBitmap(this.palette);
+            var bitmap = this.delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
             this.bitmaps[0] = bitmap!;
 
             this.SetDisplayBoxToBitmapSize(0);
@@ -245,7 +247,7 @@ namespace LFD_Tools
         {
             for (var d = 0; d < this.anim!.NumDelts; d++)
             {
-                var bitmap = this.anim.Delts[d].Delt.CreateBitmap(this.palette);
+                var bitmap = this.anim.Delts[d].Delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
                 this.bitmaps![d] = bitmap!;
             }
         }
@@ -335,10 +337,10 @@ namespace LFD_Tools
                 // Single DELT info
                 var infoLines = this.textBoxInfo.Lines;
                 infoLines[2] = $"DELT {index}";
-                infoLines[3] = $"Width: {anim.Delts[index].Delt.SizeX}";
-                infoLines[4] = $"Height: {anim.Delts[index].Delt.SizeY}";
-                infoLines[5] = $"OffsetX: {anim.Delts[index].Delt.OffsetX}";
-                infoLines[6] = $"OffsetY: {anim.Delts[index].Delt.OffsetY}";
+                infoLines[3] = $"Width: {this.anim.Delts[index].Delt.SizeX}";
+                infoLines[4] = $"Height: {this.anim.Delts[index].Delt.SizeY}";
+                infoLines[5] = $"OffsetX: {this.anim.Delts[index].Delt.OffsetX}";
+                infoLines[6] = $"OffsetY: {this.anim.Delts[index].Delt.OffsetY}";
                 this.textBoxInfo.Lines = infoLines;
             }
 
@@ -371,6 +373,7 @@ namespace LFD_Tools
                 return;
             }
 
+            // Resize display area, then redraw
             if (this.currentMode == Mode.DELT)
             {
                 this.SetDisplayBoxToBitmapSize(0);
@@ -386,6 +389,7 @@ namespace LFD_Tools
                 else
                 {
                     var index = this.listBoxDelts.SelectedIndex;
+                    if (index < 0 || index >= this.anim!.NumDelts) { return; }
                     this.SetDisplayBoxToBitmapSize(index);
                 }
 
@@ -424,6 +428,43 @@ namespace LFD_Tools
             }
             if (this.currentMode == Mode.ANIM)
             {
+                this.RedrawAnimImage();
+                return;
+            }
+        }
+
+        private void CheckBoxSubtractOffsets_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.bitmaps == null || this.bitmaps.Length == 0)
+            {
+                return;
+            }
+
+            // Regenerate bitmaps, resize display area, and redraw
+            if (this.currentMode == Mode.DELT && this.delt != null)
+            {
+                var bitmap = this.delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
+                this.bitmaps[0] = bitmap!;
+                this.SetDisplayBoxToBitmapSize(0);
+                this.RedrawDeltImage();
+                return;
+            }
+
+            if (this.currentMode == Mode.ANIM && this.anim != null)
+            {
+                this.GenerateAnimBitmaps();
+
+                if (this.checkBoxMultiSelect.Checked)
+                {
+                    this.SetDisplayBoxToMaxBitmapSize();
+                }
+                else
+                {
+                    var index = this.listBoxDelts.SelectedIndex;
+                    if (index < 0 || index >= this.anim!.NumDelts) { return; }
+                    this.SetDisplayBoxToBitmapSize(index);
+                }
+
                 this.RedrawAnimImage();
                 return;
             }
