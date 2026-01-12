@@ -29,11 +29,8 @@
         private void InitializeComponent()
         {
             openPlttDialog = new OpenFileDialog();
-            button1 = new Button();
-            button2 = new Button();
             openDeltDialog = new OpenFileDialog();
             displayBox = new PictureBox();
-            button3 = new Button();
             openAnimDialog = new OpenFileDialog();
             displayPanel = new Panel();
             comboBoxScale = new ComboBox();
@@ -50,38 +47,25 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
-            button4 = new Button();
             openLfdDialog = new OpenFileDialog();
+            toolStrip = new ToolStrip();
+            toolStripButtonOpenLFD = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            toolStripDropDownButtonOpenFile = new ToolStripDropDownButton();
+            toolStripMenuItemOpenPltt = new ToolStripMenuItem();
+            toolStripMenuItemOpenDelt = new ToolStripMenuItem();
+            toolStripMenuItemOpenAnim = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
             mainPanel.SuspendLayout();
+            toolStrip.SuspendLayout();
             SuspendLayout();
             // 
             // openPlttDialog
             // 
             openPlttDialog.Filter = "PLTT resource|*.plt;*.pltt";
             openPlttDialog.Title = "Open PLTT";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(483, 23);
-            button1.Name = "button1";
-            button1.Size = new Size(104, 29);
-            button1.TabIndex = 0;
-            button1.Text = "Open PLTT";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(609, 23);
-            button2.Name = "button2";
-            button2.Size = new Size(104, 29);
-            button2.TabIndex = 1;
-            button2.Text = "Open DELT";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // openDeltDialog
             // 
@@ -98,16 +82,6 @@
             displayBox.TabStop = false;
             displayBox.Paint += DisplayBox_Paint;
             // 
-            // button3
-            // 
-            button3.Location = new Point(733, 23);
-            button3.Name = "button3";
-            button3.Size = new Size(104, 29);
-            button3.TabIndex = 3;
-            button3.Text = "Open ANIM";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
             // openAnimDialog
             // 
             openAnimDialog.Filter = "ANIM resource|*.anm;*.anim";
@@ -121,7 +95,7 @@
             displayPanel.Controls.Add(displayBox);
             displayPanel.Location = new Point(335, 212);
             displayPanel.Name = "displayPanel";
-            displayPanel.Size = new Size(896, 610);
+            displayPanel.Size = new Size(894, 563);
             displayPanel.TabIndex = 5;
             // 
             // comboBoxScale
@@ -132,7 +106,7 @@
             comboBoxScale.Name = "comboBoxScale";
             comboBoxScale.Size = new Size(151, 28);
             comboBoxScale.TabIndex = 6;
-            comboBoxScale.SelectedIndexChanged += comboBoxScale_SelectedIndexChanged;
+            comboBoxScale.SelectedIndexChanged += ComboBoxScale_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -211,9 +185,9 @@
             lfdPanel.Controls.Add(labelLfd);
             lfdPanel.Controls.Add(label4);
             lfdPanel.Dock = DockStyle.Left;
-            lfdPanel.Location = new Point(0, 0);
+            lfdPanel.Location = new Point(0, 45);
             lfdPanel.Name = "lfdPanel";
-            lfdPanel.Size = new Size(363, 853);
+            lfdPanel.Size = new Size(363, 808);
             lfdPanel.TabIndex = 16;
             lfdPanel.Visible = false;
             // 
@@ -226,7 +200,7 @@
             btnOpenResource.TabIndex = 3;
             btnOpenResource.Text = "Open Selected Resource";
             btnOpenResource.UseVisualStyleBackColor = true;
-            btnOpenResource.Click += btnOpenResource_Click;
+            btnOpenResource.Click += BtnOpenResource_Click;
             // 
             // listBoxLfdContents
             // 
@@ -235,7 +209,7 @@
             listBoxLfdContents.Name = "listBoxLfdContents";
             listBoxLfdContents.Size = new Size(305, 524);
             listBoxLfdContents.TabIndex = 2;
-            listBoxLfdContents.SelectedIndexChanged += listBoxLfdContents_SelectedIndexChanged;
+            listBoxLfdContents.SelectedIndexChanged += ListBoxLfdContents_SelectedIndexChanged;
             // 
             // labelLfd
             // 
@@ -258,13 +232,10 @@
             // 
             // mainPanel
             // 
-            mainPanel.Controls.Add(button4);
+            mainPanel.BorderStyle = BorderStyle.FixedSingle;
             mainPanel.Controls.Add(label3);
             mainPanel.Controls.Add(labelPltt);
-            mainPanel.Controls.Add(button1);
-            mainPanel.Controls.Add(button2);
             mainPanel.Controls.Add(label2);
-            mainPanel.Controls.Add(button3);
             mainPanel.Controls.Add(listBoxDelts);
             mainPanel.Controls.Add(displayPanel);
             mainPanel.Controls.Add(checkBoxMultiSelect);
@@ -272,25 +243,70 @@
             mainPanel.Controls.Add(textBoxInfo);
             mainPanel.Controls.Add(label1);
             mainPanel.Dock = DockStyle.Fill;
-            mainPanel.Location = new Point(363, 0);
+            mainPanel.Location = new Point(363, 45);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(1259, 853);
+            mainPanel.Size = new Size(1259, 808);
             mainPanel.TabIndex = 15;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(356, 23);
-            button4.Name = "button4";
-            button4.Size = new Size(104, 29);
-            button4.TabIndex = 15;
-            button4.Text = "Open LFD";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
             // 
             // openLfdDialog
             // 
             openLfdDialog.Filter = "LFD file|*.lfd";
             openLfdDialog.Title = "Open LFD";
+            // 
+            // toolStrip
+            // 
+            toolStrip.AutoSize = false;
+            toolStrip.ImageScalingSize = new Size(20, 20);
+            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripButtonOpenLFD, toolStripSeparator1, toolStripDropDownButtonOpenFile });
+            toolStrip.Location = new Point(0, 0);
+            toolStrip.Name = "toolStrip";
+            toolStrip.Size = new Size(1622, 45);
+            toolStrip.TabIndex = 16;
+            toolStrip.Text = "toolStrip1";
+            // 
+            // toolStripButtonOpenLFD
+            // 
+            toolStripButtonOpenLFD.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonOpenLFD.ImageTransparentColor = Color.Magenta;
+            toolStripButtonOpenLFD.Name = "toolStripButtonOpenLFD";
+            toolStripButtonOpenLFD.Size = new Size(78, 42);
+            toolStripButtonOpenLFD.Text = "Open LFD";
+            toolStripButtonOpenLFD.Click += ToolStripButtonOpenLFD_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 45);
+            // 
+            // toolStripDropDownButtonOpenFile
+            // 
+            toolStripDropDownButtonOpenFile.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripDropDownButtonOpenFile.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemOpenPltt, toolStripMenuItemOpenDelt, toolStripMenuItemOpenAnim });
+            toolStripDropDownButtonOpenFile.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButtonOpenFile.Name = "toolStripDropDownButtonOpenFile";
+            toolStripDropDownButtonOpenFile.Size = new Size(86, 42);
+            toolStripDropDownButtonOpenFile.Text = "Open File";
+            // 
+            // toolStripMenuItemOpenPltt
+            // 
+            toolStripMenuItemOpenPltt.Name = "toolStripMenuItemOpenPltt";
+            toolStripMenuItemOpenPltt.Size = new Size(195, 26);
+            toolStripMenuItemOpenPltt.Text = "Open PLTT file";
+            toolStripMenuItemOpenPltt.Click += ToolStripMenuItemOpenPltt_Click;
+            // 
+            // toolStripMenuItemOpenDelt
+            // 
+            toolStripMenuItemOpenDelt.Name = "toolStripMenuItemOpenDelt";
+            toolStripMenuItemOpenDelt.Size = new Size(195, 26);
+            toolStripMenuItemOpenDelt.Text = "Open DELT file";
+            toolStripMenuItemOpenDelt.Click += ToolStripMenuItemOpenDelt_Click;
+            // 
+            // toolStripMenuItemOpenAnim
+            // 
+            toolStripMenuItemOpenAnim.Name = "toolStripMenuItemOpenAnim";
+            toolStripMenuItemOpenAnim.Size = new Size(195, 26);
+            toolStripMenuItemOpenAnim.Text = "Open ANIM file";
+            toolStripMenuItemOpenAnim.Click += ToolStripMenuItemOpenAnim_Click;
             // 
             // MainWindow
             // 
@@ -299,6 +315,7 @@
             ClientSize = new Size(1622, 853);
             Controls.Add(mainPanel);
             Controls.Add(lfdPanel);
+            Controls.Add(toolStrip);
             Name = "MainWindow";
             Text = "Main Window";
             ((System.ComponentModel.ISupportInitialize)displayBox).EndInit();
@@ -307,17 +324,16 @@
             lfdPanel.PerformLayout();
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
+            toolStrip.ResumeLayout(false);
+            toolStrip.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private OpenFileDialog openPlttDialog;
-        private Button button1;
-        private Button button2;
         private OpenFileDialog openDeltDialog;
         private PictureBox displayBox;
-        private Button button3;
         private OpenFileDialog openAnimDialog;
         private Panel displayPanel;
         private ComboBox comboBoxScale;
@@ -330,11 +346,17 @@
         private Label labelPltt;
         private Panel mainPanel;
         private Panel lfdPanel;
-        private Button button4;
         private OpenFileDialog openLfdDialog;
         private Label labelLfd;
         private Label label4;
         private ListBox listBoxLfdContents;
         private Button btnOpenResource;
+        private ToolStrip toolStrip;
+        private ToolStripButton toolStripButtonOpenLFD;
+        private ToolStripDropDownButton toolStripDropDownButtonOpenFile;
+        private ToolStripMenuItem toolStripMenuItemOpenPltt;
+        private ToolStripMenuItem toolStripMenuItemOpenDelt;
+        private ToolStripMenuItem toolStripMenuItemOpenAnim;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }

@@ -44,9 +44,24 @@ namespace LFD_Tools
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ToolStripButtonOpenLFD_Click(object sender, EventArgs e)
         {
-            // Load PLTT
+            try
+            {
+                var dlgResult = this.openLfdDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    this.LoadLfd(this.openLfdDialog.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error loading LFD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ToolStripMenuItemOpenPltt_Click(object sender, EventArgs e)
+        {
             try
             {
                 var dlgResult = this.openPlttDialog.ShowDialog();
@@ -65,9 +80,8 @@ namespace LFD_Tools
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenDelt_Click(object sender, EventArgs e)
         {
-            // Load DELT
             try
             {
                 var dlgResult = this.openDeltDialog.ShowDialog();
@@ -86,9 +100,8 @@ namespace LFD_Tools
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenAnim_Click(object sender, EventArgs e)
         {
-            // Load ANIM
             try
             {
                 var dlgResult = this.openAnimDialog.ShowDialog();
@@ -104,23 +117,6 @@ namespace LFD_Tools
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error loading ANIM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            // Load LFD
-            try
-            {
-                var dlgResult = this.openLfdDialog.ShowDialog();
-                if (dlgResult == DialogResult.OK)
-                {
-                    this.LoadLfd(this.openLfdDialog.FileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error loading LFD", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -314,7 +310,7 @@ namespace LFD_Tools
             this.RedrawAnimImage();
         }
 
-        private void comboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (this.comboBoxScale.SelectedIndex)
             {
@@ -464,7 +460,7 @@ namespace LFD_Tools
             }
         }
 
-        private void listBoxLfdContents_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBoxLfdContents_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxLfdContents.SelectedIndex < 0)
             {
@@ -488,7 +484,7 @@ namespace LFD_Tools
             }
         }
 
-        private void btnOpenResource_Click(object sender, EventArgs e)
+        private void BtnOpenResource_Click(object sender, EventArgs e)
         {
             var selectedResource = this.listBoxLfdContents.SelectedItem as LfdResource;
             if (selectedResource == null)
