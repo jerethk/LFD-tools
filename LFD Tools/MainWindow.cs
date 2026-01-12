@@ -1,7 +1,9 @@
 using LFD_Tools.DFTypes;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using static LFD_Tools.Types.AppMode;
+using static LFD_Tools.Types.Helpers;
 
 namespace LFD_Tools
 {
@@ -13,6 +15,7 @@ namespace LFD_Tools
 
             lfdPanel.Visible = false;
             this.comboBoxScale.SelectedIndex = 1;   // 200%
+            //this.toolStripButtonExport.Enabled = false;
 
             this.brfJanPltt = new();
             this.LoadBrfJanPltt();
@@ -204,6 +207,7 @@ namespace LFD_Tools
 
             this.SetDisplayBoxToBitmapSize(0);
             this.RedrawDeltImage();
+            this.toolStripButtonExport.Enabled = true;
         }
 
         private void SetupAnim()
@@ -232,6 +236,7 @@ namespace LFD_Tools
 
             this.SetDisplayBoxToBitmapSize(0);
             this.RedrawAnimImage();
+            this.toolStripButtonExport.Enabled = true;
         }
 
         private void GenerateAnimBitmaps()
@@ -577,6 +582,86 @@ namespace LFD_Tools
                     MessageBox.Show(ex.Message, "Error loading ANIM.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return;
+            }
+        }
+
+        private void ToolStripButtonExport_Click(object sender, EventArgs e)
+        {
+            if (this.currentMode == Mode.NIL)
+            {
+                return;
+            }
+
+            if (this.currentMode == Mode.DELT)
+            {
+                if (this.bitmaps == null || this.bitmaps.Length == 0 || this.delt == null)
+                {
+                    MessageBox.Show("Image not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (this.bitmaps[0] == null)
+                {
+                    MessageBox.Show("This DELT has no image.", "Cannot Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(this.exportPath))
+                {
+                    this.savePngDialog.InitialDirectory = this.exportPath;
+                }
+
+                this.savePngDialog.Title = "Export DELT as PNG";
+                this.savePngDialog.FileName = $"{this.delt.Name}.DELT.png";
+                var dlgResult = this.savePngDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    this.bitmaps[0].Save(this.savePngDialog.FileName, ImageFormat.Png);
+                    this.exportPath = Path.GetDirectoryName(this.savePngDialog.FileName);
+                    MessageBox.Show("Export successful", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                return;
+            }
+
+            if (this.currentMode == Mode.ANIM)
+            {
+                if (this.bitmaps == null || this.bitmaps.Length == 0 || this.anim == null)
+                {
+                    MessageBox.Show("Images not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(this.exportPath))
+                {
+                    this.savePngDialog.InitialDirectory = this.exportPath;
+                }
+
+                this.savePngDialog.Title = "Export ANIM as PNGs";
+                this.savePngDialog.FileName = $"{this.anim.Name}.ANIM";
+                var dlgResult = this.savePngDialog.ShowDialog();
+                if (dlgResult == DialogResult.OK)
+                {
+                    var directory = Path.GetDirectoryName(this.savePngDialog.FileName) ?? string.Empty;
+                    var baseFilename = Path.GetFileNameWithoutExtension(this.savePngDialog.FileName);
+
+                    for (int i = 0; i < this.anim.NumDelts; i++)
+                    {
+                        if (this.bitmaps[i] == null)
+                        {
+                            continue;
+                        }
+
+                        var number = GetNumberWithLeadingZeroes(i);
+                        var fileName = $"{baseFilename}{number}.PNG";
+                        var path = Path.Combine(directory, fileName);
+
+                        this.bitmaps[i].Save(path, ImageFormat.Png);
+                    }
+                    
+                    this.exportPath = Path.GetDirectoryName(this.savePngDialog.FileName);
+                    MessageBox.Show("Export successful", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }

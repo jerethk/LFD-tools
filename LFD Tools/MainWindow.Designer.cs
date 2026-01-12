@@ -58,6 +58,9 @@
             toolStripMenuItemOpenPltt = new ToolStripMenuItem();
             toolStripMenuItemOpenDelt = new ToolStripMenuItem();
             toolStripMenuItemOpenAnim = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            toolStripButtonExport = new ToolStripButton();
+            savePngDialog = new SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -281,7 +284,7 @@
             // 
             toolStrip.AutoSize = false;
             toolStrip.ImageScalingSize = new Size(20, 20);
-            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripButtonOpenLFD, toolStripSeparator1, toolStripDropDownButtonOpenFile });
+            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripButtonOpenLFD, toolStripSeparator1, toolStripDropDownButtonOpenFile, toolStripSeparator2, toolStripButtonExport });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(1622, 45);
@@ -331,6 +334,26 @@
             toolStripMenuItemOpenAnim.Size = new Size(195, 26);
             toolStripMenuItemOpenAnim.Text = "Open ANIM file";
             toolStripMenuItemOpenAnim.Click += ToolStripMenuItemOpenAnim_Click;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(6, 45);
+            // 
+            // toolStripButtonExport
+            // 
+            toolStripButtonExport.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonExport.ImageTransparentColor = Color.Magenta;
+            toolStripButtonExport.Name = "toolStripButtonExport";
+            toolStripButtonExport.Size = new Size(120, 42);
+            toolStripButtonExport.Text = "Export Resource";
+            toolStripButtonExport.Click += ToolStripButtonExport_Click;
+            // 
+            // savePngDialog
+            // 
+            savePngDialog.DefaultExt = "PNG";
+            savePngDialog.Filter = "PNG images|*.png";
+            savePngDialog.Title = "Export Resource";
             // 
             // MainWindow
             // 
@@ -386,5 +409,8 @@
         private ToolStripSeparator toolStripSeparator1;
         private Label label5;
         private Label labelResourceName;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton toolStripButtonExport;
+        private SaveFileDialog savePngDialog;
     }
 }
