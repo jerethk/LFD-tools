@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             openPlttDialog = new OpenFileDialog();
             openDeltDialog = new OpenFileDialog();
             displayBox = new PictureBox();
@@ -47,6 +48,8 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
+            label5 = new Label();
+            labelResourceName = new Label();
             openLfdDialog = new OpenFileDialog();
             toolStrip = new ToolStrip();
             toolStripButtonOpenLFD = new ToolStripButton();
@@ -93,16 +96,16 @@
             displayPanel.AutoScroll = true;
             displayPanel.BorderStyle = BorderStyle.FixedSingle;
             displayPanel.Controls.Add(displayBox);
-            displayPanel.Location = new Point(335, 212);
+            displayPanel.Location = new Point(336, 140);
             displayPanel.Name = "displayPanel";
-            displayPanel.Size = new Size(894, 563);
+            displayPanel.Size = new Size(894, 634);
             displayPanel.TabIndex = 5;
             // 
             // comboBoxScale
             // 
             comboBoxScale.FormattingEnabled = true;
             comboBoxScale.Items.AddRange(new object[] { "100%", "200%", "300%", "400%" });
-            comboBoxScale.Location = new Point(336, 159);
+            comboBoxScale.Location = new Point(450, 95);
             comboBoxScale.Name = "comboBoxScale";
             comboBoxScale.Size = new Size(151, 28);
             comboBoxScale.TabIndex = 6;
@@ -111,26 +114,26 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(336, 136);
+            label1.Location = new Point(336, 98);
             label1.Name = "label1";
-            label1.Size = new Size(44, 20);
+            label1.Size = new Size(97, 20);
             label1.TabIndex = 7;
-            label1.Text = "Scale";
+            label1.Text = "Display Scale";
             // 
             // textBoxInfo
             // 
             textBoxInfo.BackColor = SystemColors.Control;
-            textBoxInfo.Location = new Point(36, 159);
+            textBoxInfo.Location = new Point(36, 141);
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
-            textBoxInfo.Size = new Size(256, 238);
+            textBoxInfo.Size = new Size(256, 190);
             textBoxInfo.TabIndex = 8;
             // 
             // checkBoxMultiSelect
             // 
             checkBoxMultiSelect.AutoSize = true;
-            checkBoxMultiSelect.Location = new Point(36, 446);
+            checkBoxMultiSelect.Location = new Point(36, 377);
             checkBoxMultiSelect.Name = "checkBoxMultiSelect";
             checkBoxMultiSelect.Size = new Size(172, 24);
             checkBoxMultiSelect.TabIndex = 10;
@@ -142,9 +145,9 @@
             // listBoxDelts
             // 
             listBoxDelts.FormattingEnabled = true;
-            listBoxDelts.Location = new Point(36, 486);
+            listBoxDelts.Location = new Point(36, 410);
             listBoxDelts.Name = "listBoxDelts";
-            listBoxDelts.Size = new Size(243, 324);
+            listBoxDelts.Size = new Size(243, 364);
             listBoxDelts.TabIndex = 11;
             listBoxDelts.Visible = false;
             listBoxDelts.SelectedIndexChanged += ListBoxDelts_SelectedIndexChanged;
@@ -152,16 +155,16 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(36, 136);
+            label2.Location = new Point(36, 103);
             label2.Name = "label2";
-            label2.Size = new Size(35, 20);
+            label2.Size = new Size(99, 20);
             label2.TabIndex = 12;
-            label2.Text = "Info";
+            label2.Text = "Resource Info";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(36, 27);
+            label3.Location = new Point(36, 21);
             label3.Name = "label3";
             label3.Size = new Size(91, 20);
             label3.TabIndex = 13;
@@ -171,7 +174,7 @@
             // 
             labelPltt.AutoSize = true;
             labelPltt.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPltt.Location = new Point(36, 55);
+            labelPltt.Location = new Point(36, 52);
             labelPltt.Name = "labelPltt";
             labelPltt.Size = new Size(73, 20);
             labelPltt.TabIndex = 14;
@@ -194,7 +197,7 @@
             // btnOpenResource
             // 
             btnOpenResource.Enabled = false;
-            btnOpenResource.Location = new Point(102, 709);
+            btnOpenResource.Location = new Point(98, 710);
             btnOpenResource.Name = "btnOpenResource";
             btnOpenResource.Size = new Size(146, 63);
             btnOpenResource.TabIndex = 3;
@@ -205,9 +208,9 @@
             // listBoxLfdContents
             // 
             listBoxLfdContents.FormattingEnabled = true;
-            listBoxLfdContents.Location = new Point(24, 158);
+            listBoxLfdContents.Location = new Point(24, 98);
             listBoxLfdContents.Name = "listBoxLfdContents";
-            listBoxLfdContents.Size = new Size(305, 524);
+            listBoxLfdContents.Size = new Size(305, 584);
             listBoxLfdContents.TabIndex = 2;
             listBoxLfdContents.SelectedIndexChanged += ListBoxLfdContents_SelectedIndexChanged;
             // 
@@ -215,16 +218,16 @@
             // 
             labelLfd.AutoSize = true;
             labelLfd.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelLfd.Location = new Point(24, 54);
+            labelLfd.Location = new Point(24, 52);
             labelLfd.Name = "labelLfd";
-            labelLfd.Size = new Size(51, 20);
+            labelLfd.Size = new Size(79, 20);
             labelLfd.TabIndex = 1;
-            labelLfd.Text = "label5";
+            labelLfd.Text = "LFD name";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(24, 26);
+            label4.Location = new Point(24, 21);
             label4.Name = "label4";
             label4.Size = new Size(34, 20);
             label4.TabIndex = 0;
@@ -233,6 +236,8 @@
             // mainPanel
             // 
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(label5);
+            mainPanel.Controls.Add(labelResourceName);
             mainPanel.Controls.Add(label3);
             mainPanel.Controls.Add(labelPltt);
             mainPanel.Controls.Add(label2);
@@ -247,6 +252,25 @@
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(1259, 808);
             mainPanel.TabIndex = 15;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(336, 21);
+            label5.Name = "label5";
+            label5.Size = new Size(121, 20);
+            label5.TabIndex = 15;
+            label5.Text = "Current Resource";
+            // 
+            // labelResourceName
+            // 
+            labelResourceName.AutoSize = true;
+            labelResourceName.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelResourceName.Location = new Point(336, 52);
+            labelResourceName.Name = "labelResourceName";
+            labelResourceName.Size = new Size(29, 20);
+            labelResourceName.TabIndex = 16;
+            labelResourceName.Text = "Nil";
             // 
             // openLfdDialog
             // 
@@ -316,8 +340,10 @@
             Controls.Add(mainPanel);
             Controls.Add(lfdPanel);
             Controls.Add(toolStrip);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(1500, 900);
             Name = "MainWindow";
-            Text = "Main Window";
+            Text = "LFD Tools version 0.9";
             ((System.ComponentModel.ISupportInitialize)displayBox).EndInit();
             displayPanel.ResumeLayout(false);
             lfdPanel.ResumeLayout(false);
@@ -358,5 +384,7 @@
         private ToolStripMenuItem toolStripMenuItemOpenDelt;
         private ToolStripMenuItem toolStripMenuItemOpenAnim;
         private ToolStripSeparator toolStripSeparator1;
+        private Label label5;
+        private Label labelResourceName;
     }
 }

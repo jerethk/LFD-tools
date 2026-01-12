@@ -22,7 +22,7 @@ public class Delt
 
     public void LoadFromFile(string filename)
     {
-        this.Name = Path.GetFileNameWithoutExtension(filename).ToUpperInvariant();
+        this.Name = Path.GetFileNameWithoutExtension(filename);
         
         using (var fileStream = File.Open(filename, FileMode.Open, FileAccess.Read))
         {

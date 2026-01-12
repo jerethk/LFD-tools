@@ -33,6 +33,10 @@ namespace LFD_Tools
         private Bitmap[]? bitmaps;
         private float scaleFactor = 2.0f;
 
+        private string? resourcePath;
+        private string? lfdPath;
+        private string? exportPath;
+
         private void LoadBrfJanPltt()
         {
             var data = Pltt.BrfJan.Split();
@@ -48,10 +52,16 @@ namespace LFD_Tools
         {
             try
             {
+                if (!string.IsNullOrEmpty(this.lfdPath))
+                {
+                    this.openLfdDialog.InitialDirectory = this.lfdPath;
+                }
+
                 var dlgResult = this.openLfdDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
                     this.LoadLfd(this.openLfdDialog.FileName);
+                    this.lfdPath = Path.GetDirectoryName(this.openLfdDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -64,6 +74,11 @@ namespace LFD_Tools
         {
             try
             {
+                if (!string.IsNullOrEmpty(this.resourcePath))
+                {
+                    this.openPlttDialog.InitialDirectory = this.resourcePath;
+                }
+
                 var dlgResult = this.openPlttDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
@@ -72,6 +87,7 @@ namespace LFD_Tools
                     this.palette = pltt;
 
                     this.SetupPltt();
+                    this.resourcePath = Path.GetDirectoryName(this.openPlttDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -84,6 +100,11 @@ namespace LFD_Tools
         {
             try
             {
+                if (!string.IsNullOrEmpty(this.resourcePath))
+                {
+                    this.openDeltDialog.InitialDirectory = this.resourcePath;
+                }
+
                 var dlgResult = this.openDeltDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
@@ -92,6 +113,7 @@ namespace LFD_Tools
                     this.delt = delt;
 
                     this.SetupDelt();
+                    this.resourcePath = Path.GetDirectoryName(this.openDeltDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -104,6 +126,11 @@ namespace LFD_Tools
         {
             try
             {
+                if (!string.IsNullOrEmpty(this.resourcePath))
+                {
+                    this.openAnimDialog.InitialDirectory = this.resourcePath;
+                }
+
                 var dlgResult = this.openAnimDialog.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
@@ -112,6 +139,7 @@ namespace LFD_Tools
                     this.anim = anim;
 
                     this.SetupAnim();
+                    this.resourcePath = Path.GetDirectoryName(this.openAnimDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -159,15 +187,15 @@ namespace LFD_Tools
         private void SetupDelt()
         {
             this.currentMode = Mode.DELT;
+            this.labelResourceName.Text = $"DELT {this.delt!.Name}";
             this.checkBoxMultiSelect.Visible = false;
             this.listBoxDelts.Visible = false;
 
-            var infoLines = new string[5];
-            infoLines[0] = $"DELT {this.delt!.Name}";
-            infoLines[1] = $"Width: {this.delt.SizeX}";
-            infoLines[2] = $"Height: {this.delt.SizeY}";
-            infoLines[3] = $"OffsetX: {this.delt.OffsetX}";
-            infoLines[4] = $"OffsetY: {this.delt.OffsetY}";
+            var infoLines = new string[4];
+            infoLines[0] = $"Width: {this.delt!.SizeX}";
+            infoLines[1] = $"Height: {this.delt.SizeY}";
+            infoLines[2] = $"OffsetX: {this.delt.OffsetX}";
+            infoLines[3] = $"OffsetY: {this.delt.OffsetY}";
             this.textBoxInfo.Lines = infoLines;
 
             this.bitmaps = new Bitmap[1];
@@ -181,13 +209,13 @@ namespace LFD_Tools
         private void SetupAnim()
         {
             this.currentMode = Mode.ANIM;
+            this.labelResourceName.Text = $"ANIM {this.anim!.Name}";
             this.checkBoxMultiSelect.Visible = true;
             this.listBoxDelts.Visible = true;
 
-            var infoLines = new string[8];
-            infoLines[0] = $"ANIM {this.anim!.Name}";
-            infoLines[1] = $"Contains {this.anim.NumDelts} DELTs";
-            infoLines[2] = string.Empty;
+            var infoLines = new string[7];
+            infoLines[0] = $"Contains {this.anim!.NumDelts} DELTs";
+            infoLines[1] = string.Empty;
             this.textBoxInfo.Lines = infoLines;
 
             this.listBoxDelts.Items.Clear();
@@ -264,7 +292,7 @@ namespace LFD_Tools
 
                 // Don't show individual DELT info
                 var infoLines = this.textBoxInfo.Lines;
-                for (int i = 3; i < infoLines.Length; i++)
+                for (int i = 2; i < infoLines.Length; i++)
                 {
                     infoLines[i] = string.Empty;
                 }
@@ -299,11 +327,11 @@ namespace LFD_Tools
 
                 // Single DELT info
                 var infoLines = this.textBoxInfo.Lines;
-                infoLines[3] = $"DELT {index}";
-                infoLines[4] = $"Width: {anim.Delts[index].Delt.SizeX}";
-                infoLines[5] = $"Height: {anim.Delts[index].Delt.SizeY}";
-                infoLines[6] = $"OffsetX: {anim.Delts[index].Delt.OffsetX}";
-                infoLines[7] = $"OffsetY: {anim.Delts[index].Delt.OffsetY}";
+                infoLines[2] = $"DELT {index}";
+                infoLines[3] = $"Width: {anim.Delts[index].Delt.SizeX}";
+                infoLines[4] = $"Height: {anim.Delts[index].Delt.SizeY}";
+                infoLines[5] = $"OffsetX: {anim.Delts[index].Delt.OffsetX}";
+                infoLines[6] = $"OffsetY: {anim.Delts[index].Delt.OffsetY}";
                 this.textBoxInfo.Lines = infoLines;
             }
 
