@@ -46,7 +46,7 @@ public class Pltt
         this.LastColour = reader.ReadByte();
 
         // Validate size of data
-        if (dataSize != 3 + 3 * (this.LastColour - this.FirstColour + 1))
+        if (dataSize < 2 + 3 * (this.LastColour - this.FirstColour + 1))
         {
             throw new Exception("PLTT appears to be invalid.");
         }
