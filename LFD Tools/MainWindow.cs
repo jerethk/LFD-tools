@@ -161,13 +161,8 @@ namespace LFD_Tools
 
             lfdPanel.Visible = true;
             labelLfd.Text = Path.GetFileName(filename);
-            listBoxLfdContents.Items.Clear();
-
-            for (int i = 0; i < lfd.Resources.Count; i++)
-            {
-                listBoxLfdContents.Items.Add(lfd.Resources[i]);
-                listBoxLfdContents.DisplayMember = nameof(LfdResource.Label);
-            }
+            listBoxLfdContents.DataSource = this.lfd.Resources;
+            listBoxLfdContents.DisplayMember = nameof(LfdResource.Label);
         }
 
         private void SetupPltt()
