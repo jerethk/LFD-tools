@@ -179,14 +179,14 @@ namespace LFD_Tools
             {
                 var bitmap = this.delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
                 this.bitmaps[0] = bitmap!;
-                this.RedrawDeltImage();
+                this.displayBox.Invalidate();
                 return;
             }
 
             if (this.currentMode == Mode.ANIM && this.anim != null && this.bitmaps?.Length > 0)
             {
                 this.GenerateAnimBitmaps();
-                this.RedrawAnimImage();
+                this.displayBox.Invalidate();
                 return;
             }
         }
@@ -210,7 +210,7 @@ namespace LFD_Tools
             this.bitmaps[0] = bitmap!;
 
             this.SetDisplayBoxToBitmapSize(0);
-            this.RedrawDeltImage();
+            this.displayBox.Invalidate();
             this.toolStripButtonExport.Enabled = true;
         }
 
@@ -239,7 +239,7 @@ namespace LFD_Tools
             this.listBoxDelts.SelectedIndex = 0;
 
             this.SetDisplayBoxToBitmapSize(0);
-            this.RedrawAnimImage();
+            this.displayBox.Invalidate();
             this.toolStripButtonExport.Enabled = true;
         }
 
@@ -273,22 +273,6 @@ namespace LFD_Tools
             this.displayBox.Height = (int)(validBitmaps?.Max(b => b.Height) * this.scaleFactor ?? 0);
         }
 
-        private void RedrawDeltImage()
-        {
-            using (var graphics = this.displayBox.CreateGraphics())
-            {
-                this.DrawDeltImage(graphics);
-            }
-        }
-
-        private void RedrawAnimImage()
-        {
-            using (var graphics = this.displayBox.CreateGraphics())
-            {
-                this.DrawAnimImage(graphics);
-            }
-        }
-
         private void CheckBoxMultiSelect_CheckedChanged(object sender, EventArgs e)
         {
             this.listBoxDelts.SelectionMode = this.checkBoxMultiSelect.Checked
@@ -313,7 +297,7 @@ namespace LFD_Tools
                 this.SetDisplayBoxToBitmapSize(0);
             }
 
-            this.RedrawAnimImage();
+            this.displayBox.Invalidate();
         }
 
         private void ListBoxDelts_SelectedIndexChanged(object sender, EventArgs e)
@@ -344,7 +328,7 @@ namespace LFD_Tools
                 this.textBoxInfo.Lines = infoLines;
             }
 
-            this.RedrawAnimImage();
+            this.displayBox.Invalidate();
         }
 
         private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
@@ -377,7 +361,7 @@ namespace LFD_Tools
             if (this.currentMode == Mode.DELT)
             {
                 this.SetDisplayBoxToBitmapSize(0);
-                this.RedrawDeltImage();
+                this.displayBox.Invalidate();
                 return;
             }
             if (this.currentMode == Mode.ANIM)
@@ -393,7 +377,7 @@ namespace LFD_Tools
                     this.SetDisplayBoxToBitmapSize(index);
                 }
 
-                this.RedrawAnimImage();
+                this.displayBox.Invalidate();
                 return;
             }
         }
@@ -423,12 +407,12 @@ namespace LFD_Tools
 
             if (this.currentMode == Mode.DELT)
             {
-                this.RedrawDeltImage();
+                this.displayBox.Invalidate();
                 return;
             }
             if (this.currentMode == Mode.ANIM)
             {
-                this.RedrawAnimImage();
+                this.displayBox.Invalidate();
                 return;
             }
         }
@@ -446,7 +430,7 @@ namespace LFD_Tools
                 var bitmap = this.delt.CreateBitmap(this.palette, this.checkBoxSubtractOffsets.Checked);
                 this.bitmaps[0] = bitmap!;
                 this.SetDisplayBoxToBitmapSize(0);
-                this.RedrawDeltImage();
+                this.displayBox.Invalidate();
                 return;
             }
 
@@ -465,7 +449,7 @@ namespace LFD_Tools
                     this.SetDisplayBoxToBitmapSize(index);
                 }
 
-                this.RedrawAnimImage();
+                this.displayBox.Invalidate();
                 return;
             }
         }
