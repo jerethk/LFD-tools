@@ -8,6 +8,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>brfjan_icon.ico</ApplicationIcon>
+	<Version>0.9.0</Version>
+	<Authors>Jereth Kok</Authors>
   </PropertyGroup>
 
   <ItemGroup>
