@@ -48,6 +48,7 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
+            checkBoxSubtractOffsets = new CheckBox();
             label6 = new Label();
             comboBoxDisplayBackground = new ComboBox();
             label5 = new Label();
@@ -63,7 +64,7 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripButtonExport = new ToolStripButton();
             savePngDialog = new SaveFileDialog();
-            checkBoxSubtractOffsets = new CheckBox();
+            btnViewPltt = new Button();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -242,6 +243,7 @@
             // mainPanel
             // 
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(btnViewPltt);
             mainPanel.Controls.Add(checkBoxSubtractOffsets);
             mainPanel.Controls.Add(label6);
             mainPanel.Controls.Add(comboBoxDisplayBackground);
@@ -261,6 +263,17 @@
             mainPanel.Name = "mainPanel";
             mainPanel.Size = new Size(1259, 828);
             mainPanel.TabIndex = 15;
+            // 
+            // checkBoxSubtractOffsets
+            // 
+            checkBoxSubtractOffsets.AutoSize = true;
+            checkBoxSubtractOffsets.Location = new Point(36, 327);
+            checkBoxSubtractOffsets.Name = "checkBoxSubtractOffsets";
+            checkBoxSubtractOffsets.Size = new Size(222, 24);
+            checkBoxSubtractOffsets.TabIndex = 19;
+            checkBoxSubtractOffsets.Text = "Subtract offsets from images";
+            checkBoxSubtractOffsets.UseVisualStyleBackColor = true;
+            checkBoxSubtractOffsets.CheckedChanged += CheckBoxSubtractOffsets_CheckedChanged;
             // 
             // label6
             // 
@@ -380,16 +393,15 @@
             savePngDialog.Filter = "PNG images|*.png";
             savePngDialog.Title = "Export Resource";
             // 
-            // checkBoxSubtractOffsets
+            // btnViewPltt
             // 
-            checkBoxSubtractOffsets.AutoSize = true;
-            checkBoxSubtractOffsets.Location = new Point(36, 327);
-            checkBoxSubtractOffsets.Name = "checkBoxSubtractOffsets";
-            checkBoxSubtractOffsets.Size = new Size(222, 24);
-            checkBoxSubtractOffsets.TabIndex = 19;
-            checkBoxSubtractOffsets.Text = "Subtract offsets from images";
-            checkBoxSubtractOffsets.UseVisualStyleBackColor = true;
-            checkBoxSubtractOffsets.CheckedChanged += CheckBoxSubtractOffsets_CheckedChanged;
+            btnViewPltt.Location = new Point(235, 21);
+            btnViewPltt.Name = "btnViewPltt";
+            btnViewPltt.Size = new Size(57, 51);
+            btnViewPltt.TabIndex = 20;
+            btnViewPltt.Text = "View";
+            btnViewPltt.UseVisualStyleBackColor = true;
+            btnViewPltt.Click += btnViewPltt_Click;
             // 
             // MainWindow
             // 
@@ -451,5 +463,6 @@
         private Label label6;
         private ComboBox comboBoxDisplayBackground;
         private CheckBox checkBoxSubtractOffsets;
+        private Button btnViewPltt;
     }
 }

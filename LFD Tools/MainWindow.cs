@@ -21,7 +21,7 @@ namespace LFD_Tools
             this.brfJanPltt = new();
             this.LoadBrfJanPltt();
             this.palette = this.brfJanPltt;
-            this.labelPltt.Text = "BRF-JAN";
+            this.labelPltt.Text = this.brfJanPltt.Name;
 
             this.currentMode = Mode.NIL;
         }
@@ -42,8 +42,14 @@ namespace LFD_Tools
         private string? lfdPath;
         private string? exportPath;
 
+        private PlttViewer plttViewer = new();
+
         private void LoadBrfJanPltt()
         {
+            this.brfJanPltt.Name = "BRF-JAN";
+            this.brfJanPltt.FirstColour = 0;
+            this.brfJanPltt.LastColour = 255;
+
             var data = Pltt.BrfJan.Split();
             for (int c = 0; c < 256; c++)
             {
@@ -168,6 +174,9 @@ namespace LFD_Tools
         private void SetupPltt()
         {
             this.labelPltt.Text = this.palette.Name;
+
+            // Re-initialise the viewer
+            this.plttViewer.Initialise(this.palette);
 
             // Regenerate bitmaps, then redraw
             if (this.currentMode == Mode.DELT && this.delt != null && this.bitmaps?.Length > 0)
@@ -720,6 +729,18 @@ namespace LFD_Tools
                     MessageBox.Show("Export successful", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void btnViewPltt_Click(object sender, EventArgs e)
+        {
+            if (this.plttViewer.Visible)
+            {
+                this.plttViewer.Focus();
+                return;
+            }
+
+            this.plttViewer.Initialise(this.palette);
+            this.plttViewer.Show(this);
         }
     }
 }
