@@ -18,8 +18,7 @@ namespace LFD_Tools
             this.comboBoxDisplayBackground.SelectedIndex = 0; // Black
             this.toolStripButtonExport.Enabled = false;
 
-            this.brfJanPltt = new();
-            this.LoadBrfJanPltt();
+            this.brfJanPltt = Pltt.GetBrfJanPltt();
             this.palette = this.brfJanPltt;
             this.labelPltt.Text = this.brfJanPltt.Name;
 
@@ -43,21 +42,6 @@ namespace LFD_Tools
         private string? exportPath;
 
         private PlttViewer plttViewer = new();
-
-        private void LoadBrfJanPltt()
-        {
-            this.brfJanPltt.Name = "BRF-JAN";
-            this.brfJanPltt.FirstColour = 0;
-            this.brfJanPltt.LastColour = 255;
-
-            var data = Pltt.BrfJan.Split();
-            for (int c = 0; c < 256; c++)
-            {
-                this.brfJanPltt.Colours[c].R = Convert.ToByte(data[c * 3]);
-                this.brfJanPltt.Colours[c].G = Convert.ToByte(data[c * 3 + 1]);
-                this.brfJanPltt.Colours[c].B = Convert.ToByte(data[c * 3 + 2]);
-            }
-        }
 
         private void ToolStripButtonOpenLFD_Click(object sender, EventArgs e)
         {
@@ -741,6 +725,14 @@ namespace LFD_Tools
 
             this.plttViewer.Initialise(this.palette);
             this.plttViewer.Show(this);
+        }
+
+        private void toolStripMenuItemCreateDelt_Click(object sender, EventArgs e)
+        {
+            var deltWindow = new CreateDeltWindow();
+            {
+                deltWindow.Show(this);
+            }
         }
     }
 }

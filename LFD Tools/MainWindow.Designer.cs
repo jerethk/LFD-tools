@@ -48,6 +48,7 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
+            btnViewPltt = new Button();
             checkBoxSubtractOffsets = new CheckBox();
             label6 = new Label();
             comboBoxDisplayBackground = new ComboBox();
@@ -63,8 +64,10 @@
             toolStripMenuItemOpenAnim = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripButtonExport = new ToolStripButton();
+            toolStripSeparator3 = new ToolStripSeparator();
             savePngDialog = new SaveFileDialog();
-            btnViewPltt = new Button();
+            toolStripDropDownButtonCreate = new ToolStripDropDownButton();
+            toolStripMenuItemCreateDelt = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -264,6 +267,16 @@
             mainPanel.Size = new Size(1259, 828);
             mainPanel.TabIndex = 15;
             // 
+            // btnViewPltt
+            // 
+            btnViewPltt.Location = new Point(235, 21);
+            btnViewPltt.Name = "btnViewPltt";
+            btnViewPltt.Size = new Size(57, 51);
+            btnViewPltt.TabIndex = 20;
+            btnViewPltt.Text = "View";
+            btnViewPltt.UseVisualStyleBackColor = true;
+            btnViewPltt.Click += btnViewPltt_Click;
+            // 
             // checkBoxSubtractOffsets
             // 
             checkBoxSubtractOffsets.AutoSize = true;
@@ -322,7 +335,7 @@
             // 
             toolStrip.AutoSize = false;
             toolStrip.ImageScalingSize = new Size(20, 20);
-            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripButtonOpenLFD, toolStripSeparator1, toolStripDropDownButtonOpenFile, toolStripSeparator2, toolStripButtonExport });
+            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripButtonOpenLFD, toolStripSeparator1, toolStripDropDownButtonOpenFile, toolStripSeparator2, toolStripButtonExport, toolStripSeparator3, toolStripDropDownButtonCreate });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(1622, 45);
@@ -355,21 +368,21 @@
             // toolStripMenuItemOpenPltt
             // 
             toolStripMenuItemOpenPltt.Name = "toolStripMenuItemOpenPltt";
-            toolStripMenuItemOpenPltt.Size = new Size(195, 26);
+            toolStripMenuItemOpenPltt.Size = new Size(224, 26);
             toolStripMenuItemOpenPltt.Text = "Open PLTT file";
             toolStripMenuItemOpenPltt.Click += ToolStripMenuItemOpenPltt_Click;
             // 
             // toolStripMenuItemOpenDelt
             // 
             toolStripMenuItemOpenDelt.Name = "toolStripMenuItemOpenDelt";
-            toolStripMenuItemOpenDelt.Size = new Size(195, 26);
+            toolStripMenuItemOpenDelt.Size = new Size(224, 26);
             toolStripMenuItemOpenDelt.Text = "Open DELT file";
             toolStripMenuItemOpenDelt.Click += ToolStripMenuItemOpenDelt_Click;
             // 
             // toolStripMenuItemOpenAnim
             // 
             toolStripMenuItemOpenAnim.Name = "toolStripMenuItemOpenAnim";
-            toolStripMenuItemOpenAnim.Size = new Size(195, 26);
+            toolStripMenuItemOpenAnim.Size = new Size(224, 26);
             toolStripMenuItemOpenAnim.Text = "Open ANIM file";
             toolStripMenuItemOpenAnim.Click += ToolStripMenuItemOpenAnim_Click;
             // 
@@ -387,21 +400,32 @@
             toolStripButtonExport.Text = "Export Resource";
             toolStripButtonExport.Click += ToolStripButtonExport_Click;
             // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 45);
+            // 
             // savePngDialog
             // 
             savePngDialog.DefaultExt = "PNG";
             savePngDialog.Filter = "PNG images|*.png";
             savePngDialog.Title = "Export Resource";
             // 
-            // btnViewPltt
+            // toolStripDropDownButtonCreate
             // 
-            btnViewPltt.Location = new Point(235, 21);
-            btnViewPltt.Name = "btnViewPltt";
-            btnViewPltt.Size = new Size(57, 51);
-            btnViewPltt.TabIndex = 20;
-            btnViewPltt.Text = "View";
-            btnViewPltt.UseVisualStyleBackColor = true;
-            btnViewPltt.Click += btnViewPltt_Click;
+            toolStripDropDownButtonCreate.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripDropDownButtonCreate.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemCreateDelt });
+            toolStripDropDownButtonCreate.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButtonCreate.Name = "toolStripDropDownButtonCreate";
+            toolStripDropDownButtonCreate.Size = new Size(130, 42);
+            toolStripDropDownButtonCreate.Text = "Create Resource";
+            // 
+            // toolStripMenuItemCreateDelt
+            // 
+            toolStripMenuItemCreateDelt.Name = "toolStripMenuItemCreateDelt";
+            toolStripMenuItemCreateDelt.Size = new Size(224, 26);
+            toolStripMenuItemCreateDelt.Text = "Create DELT";
+            toolStripMenuItemCreateDelt.Click += toolStripMenuItemCreateDelt_Click;
             // 
             // MainWindow
             // 
@@ -464,5 +488,8 @@
         private ComboBox comboBoxDisplayBackground;
         private CheckBox checkBoxSubtractOffsets;
         private Button btnViewPltt;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripDropDownButton toolStripDropDownButtonCreate;
+        private ToolStripMenuItem toolStripMenuItemCreateDelt;
     }
 }
