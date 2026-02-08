@@ -73,7 +73,7 @@ namespace LFD_Tools
 
             this.pictureBoxSourceImage.Image = this.sourceImage;
             this.pictureBoxSourceImage.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.pictureBoxSourceImage.BackColor = Color.LightGray;
+            this.pictureBoxSourceImage.BackColor = Color.Gray;
             this.pictureBoxSourceImage.Width = this.sourceImage.Width * 2;
             this.pictureBoxSourceImage.Height = this.sourceImage.Height * 2;
             this.labelSourceImage.Text = Path.GetFileName(this.openImageDialog.FileName);

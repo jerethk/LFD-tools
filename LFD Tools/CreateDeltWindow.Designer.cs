@@ -133,9 +133,9 @@
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(radioBtnOffsetManual);
             groupBox2.Controls.Add(radioBtnOffsetAuto);
-            groupBox2.Location = new Point(748, 147);
+            groupBox2.Location = new Point(863, 147);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(293, 266);
+            groupBox2.Size = new Size(283, 266);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Offset Options";
@@ -197,7 +197,7 @@
             radioBtnOffsetAuto.TabIndex = 0;
             radioBtnOffsetAuto.TabStop = true;
             radioBtnOffsetAuto.Text = "Set Automatically";
-            toolTip.SetToolTip(radioBtnOffsetAuto, "\"Offsets will be set based on the location of the first non-transparent pixel\"");
+            toolTip.SetToolTip(radioBtnOffsetAuto, "Offsets will be set based on the location of the first non-transparent pixel");
             radioBtnOffsetAuto.UseVisualStyleBackColor = true;
             radioBtnOffsetAuto.CheckedChanged += RadioBtnOffsetAuto_CheckedChanged;
             // 
@@ -224,14 +224,14 @@
             panel1.Controls.Add(pictureBoxSourceImage);
             panel1.Location = new Point(23, 222);
             panel1.Name = "panel1";
-            panel1.Size = new Size(685, 703);
+            panel1.Size = new Size(800, 703);
             panel1.TabIndex = 6;
             // 
             // CreateDeltWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1082, 953);
+            ClientSize = new Size(1182, 953);
             Controls.Add(panel1);
             Controls.Add(labelSourceImageSize);
             Controls.Add(groupBox2);
@@ -239,7 +239,7 @@
             Controls.Add(btnLoadSourceImg);
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1100, 1000);
+            MinimumSize = new Size(1200, 1000);
             Name = "CreateDeltWindow";
             Text = "Create DELT";
             groupBox1.ResumeLayout(false);
