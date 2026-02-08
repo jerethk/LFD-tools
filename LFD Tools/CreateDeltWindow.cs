@@ -98,12 +98,12 @@ namespace LFD_Tools
                     {
                         this.autoOffsetX = x;
                         this.autoOffsetY = y;
-                        
+
                         if (this.radioBtnOffsetAuto.Checked)
                         {
                             this.ShowAutoOffsets();
                         }
-                        
+
                         return;
                     }
                 }
@@ -138,6 +138,26 @@ namespace LFD_Tools
         {
             this.numericOffsetX.Value = this.autoOffsetX;
             this.numericOffsetY.Value = this.autoOffsetY;
+        }
+
+        private void BtnCreateDelt_Click(object sender, EventArgs e)
+        {
+            if (this.sourceImage == null)
+            {
+                return;
+            }
+
+            var dlgResult = this.saveDeltDialog.ShowDialog();
+            if (dlgResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            var offsetX = this.radioBtnOffsetAuto.Checked ? this.autoOffsetX : (int)this.numericOffsetX.Value;
+            var offsetY = this.radioBtnOffsetAuto.Checked ? this.autoOffsetY : (int)this.numericOffsetY.Value;
+            
+            var newDelt = new Delt();
+            newDelt.CreateFromBitmap(this.sourceImage, this.pltt, offsetX, offsetY, this.radioBtnOffsetManual.Checked);
         }
     }
 }

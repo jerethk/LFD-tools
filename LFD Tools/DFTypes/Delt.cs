@@ -15,8 +15,8 @@ public class Delt
     public string? Name { get; set; }
     public Int16 OffsetX { get; set; }
     public Int16 OffsetY { get; set; }
-    public Int16 SizeX { get; set; }
-    public Int16 SizeY { get; set; }
+    public Int16 SizeX { get; set; }    // equals actual SizeX - 1;
+    public Int16 SizeY { get; set; }    // equals actual SizeY - 1;
 
     public int[,]? Pixels { get; set; }
 
@@ -114,6 +114,37 @@ public class Delt
         return bitmap;
     }
 
+    public void CreateFromBitmap(Bitmap bitmap, Pltt pltt, int offsetX, int offsetY, bool addOffsets)
+    {
+        if (bitmap == null || pltt == null)
+        {
+            throw new Exception("Cannot create DELT with null bitmap or null PLTT");
+        }
+
+        if (offsetX < 0 || offsetY < 0)
+        {
+            throw new Exception("Offsets cannot be negative.");
+        }
+
+        var width = addOffsets ? bitmap.Width + offsetX : bitmap.Width;
+        var height = addOffsets ? bitmap.Height + offsetY : bitmap.Height;
+
+        this.SizeX = (Int16)(width - 1);
+        this.SizeY = (Int16)(height - 1);
+        this.OffsetX = (Int16)offsetX;
+        this.OffsetY = (Int16)offsetY;
+
+        // Convert bitmap to Pixels
+        var pixelsOffsetX = addOffsets ? offsetX : 0;
+        var pixelsOffsetY = addOffsets ? offsetY : 0;
+        this.Pixels = GetPixelsFromBitmap(bitmap, pltt, width, height, pixelsOffsetX, pixelsOffsetY);
+    }
+
+    public void SaveToFile(string fileName)
+    {
+
+    }
+
     private static IEnumerable<int> GetUncompressedLine(BinaryReader reader, int lineSize)
     {
         var lineData = reader.ReadBytes(lineSize);
@@ -155,5 +186,39 @@ public class Delt
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Create the DELT image as an array of Pixels
+    /// </summary>
+    /// <param name="bitmap">Source bitmap</param>
+    /// <param name="pltt">Source PLTT</param>
+    /// <param name="width">Width of the DELT image (equals source bitmap width + offsetX)</param>
+    /// <param name="height">Height of the DELT image (equals source bitmap height + offsetY)</param>
+    /// <param name="offsetX"></param>
+    /// <param name="offsetY"></param>
+    /// <returns></returns>
+    private static int[,] GetPixelsFromBitmap(Bitmap bitmap, Pltt pltt, int width, int height, int offsetX, int offsetY)
+    {
+        // Set all pixels to transparent initially
+        var pixels = new int[width, height];
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                pixels[x, y] = -1;
+            }
+        }
+
+        for (int x = 0; x < bitmap.Width; x++)
+        {
+            for (int y = 0; y < bitmap.Height; y++)
+            {
+                var pixel = pltt.GetClosestMatch(bitmap.GetPixel(x, y));
+                pixels[x + offsetX, y + offsetY] = pixel;
+            }
+        }
+        
+        return pixels;
     }
 }

@@ -48,6 +48,8 @@
             toolTip = new ToolTip(components);
             labelSourceImageSize = new Label();
             panel1 = new Panel();
+            btnCreateDelt = new Button();
+            saveDeltDialog = new SaveFileDialog();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSourceImage).BeginInit();
             groupBox2.SuspendLayout();
@@ -184,6 +186,7 @@
             radioBtnOffsetManual.Size = new Size(115, 24);
             radioBtnOffsetManual.TabIndex = 1;
             radioBtnOffsetManual.Text = "Set Manually";
+            toolTip.SetToolTip(radioBtnOffsetManual, "Set offsets manually. Note: your DELT image will be shifted by OffsetX pixels to the right, and OffsetY pixels down.");
             radioBtnOffsetManual.UseVisualStyleBackColor = true;
             radioBtnOffsetManual.CheckedChanged += RadioBtnOffsetManual_CheckedChanged;
             // 
@@ -197,13 +200,13 @@
             radioBtnOffsetAuto.TabIndex = 0;
             radioBtnOffsetAuto.TabStop = true;
             radioBtnOffsetAuto.Text = "Set Automatically";
-            toolTip.SetToolTip(radioBtnOffsetAuto, "Offsets will be set based on the location of the first non-transparent pixel");
+            toolTip.SetToolTip(radioBtnOffsetAuto, "Offsets will be set based on the location of the first non-transparent pixel.");
             radioBtnOffsetAuto.UseVisualStyleBackColor = true;
             radioBtnOffsetAuto.CheckedChanged += RadioBtnOffsetAuto_CheckedChanged;
             // 
             // toolTip
             // 
-            toolTip.AutoPopDelay = 5000;
+            toolTip.AutoPopDelay = 30000;
             toolTip.InitialDelay = 100;
             toolTip.ReshowDelay = 100;
             // 
@@ -227,11 +230,27 @@
             panel1.Size = new Size(800, 703);
             panel1.TabIndex = 6;
             // 
+            // btnCreateDelt
+            // 
+            btnCreateDelt.Location = new Point(956, 460);
+            btnCreateDelt.Name = "btnCreateDelt";
+            btnCreateDelt.Size = new Size(107, 62);
+            btnCreateDelt.TabIndex = 7;
+            btnCreateDelt.Text = "Create DELT";
+            btnCreateDelt.UseVisualStyleBackColor = true;
+            btnCreateDelt.Click += BtnCreateDelt_Click;
+            // 
+            // saveDeltDialog
+            // 
+            saveDeltDialog.Filter = "DELT resource|*.delt;*.dlt";
+            saveDeltDialog.Title = "Create DELT";
+            // 
             // CreateDeltWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1182, 953);
+            Controls.Add(btnCreateDelt);
             Controls.Add(panel1);
             Controls.Add(labelSourceImageSize);
             Controls.Add(groupBox2);
@@ -274,5 +293,7 @@
         private Label label1;
         private Label labelSourceImageSize;
         private Panel panel1;
+        private Button btnCreateDelt;
+        private SaveFileDialog saveDeltDialog;
     }
 }

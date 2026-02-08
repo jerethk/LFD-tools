@@ -102,6 +102,34 @@ public class Pltt
             fileWriter.WriteLine(output);
         }
     }
+
+    public int GetClosestMatch(Color colour)
+    {
+        // Transparent pixel
+        if (colour.A == 0)
+        {
+            return -1;
+        }
+
+        double smallestDistance = 500;
+        int bestMatch = 0;
+
+        for (int i = this.FirstColour; i <= this.LastColour; i++)
+        {
+            int deltaRed = colour.R - this.Colours[i].R;
+            int deltaGreen = colour.G - this.Colours[i].G;
+            int deltaBlue = colour.B - this.Colours[i].B;
+            var distance = Math.Sqrt(deltaRed * deltaRed + deltaGreen * deltaGreen + deltaBlue * deltaBlue);
+
+            if (distance < smallestDistance)
+            {
+                smallestDistance = distance;
+                bestMatch = i;
+            }
+        }
+
+        return bestMatch;
+    }
 }
 
 public struct PlttColour
