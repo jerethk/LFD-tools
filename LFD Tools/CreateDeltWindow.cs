@@ -40,7 +40,7 @@ namespace LFD_Tools
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Failed to load PLTT: {ex.Message}");
+                    MessageBox.Show($"Failed to load PLTT: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace LFD_Tools
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Failed to load image: {ex.Message}");
+                    MessageBox.Show($"Failed to load image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 this.DisplaySourceImage();
@@ -158,6 +158,15 @@ namespace LFD_Tools
             
             var newDelt = new Delt();
             newDelt.CreateFromBitmap(this.sourceImage, this.pltt, offsetX, offsetY, this.radioBtnOffsetManual.Checked);
+
+            try
+            {
+                newDelt.SaveToFile(this.saveDeltDialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving DELT: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
