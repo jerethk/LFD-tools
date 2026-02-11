@@ -142,7 +142,7 @@ public class Delt
 
     public void SaveToFile(string fileName)
     {
-        var data = this.ConvertPixelsToData();
+        var data = this.ConvertPixelsToData2();
 
         using var fileStream = File.OpenWrite(fileName);
         using var writer = new BinaryWriter(fileStream);
@@ -287,31 +287,69 @@ public class Delt
         result.AddRange(BitConverter.GetBytes((Int16)0));
         return result.ToArray<byte>();
     }
-}
 
-
-// 
-// Find the end of the line (i.e. where the next pixel is transparent, or else the very end of the row)
-/*
-var lineStart = x;
-var lineEnd = width - 1;
-
-var p = lineStart;
-while (p + 1 < width)
-{
-    if (this.Pixels[p + 1, y] == -1)
+    // Note: This will only create data in uncompressed format.
+    private byte[] ConvertPixelsToData2()
     {
-        lineEnd = p;
-        break;
+        if (this.Pixels == null)
+        {
+            throw new Exception("Trying to save DELT. Pixels cannot be null.");
+        }
+
+        var result = new List<byte>();
+
+        var width = this.SizeX + 1;
+        var height = this.SizeY + 1;
+
+        for (int y = 0; y < height; y++)
+        {
+            var x = 0;
+
+            while (x < width)
+            {
+                // Find the next non-transparent pixel in the row; this is where the next line starts
+                if (this.Pixels[x, y] == -1)
+                {
+                    x++;
+                    continue;
+                }
+
+                var lineStartX = x;
+                var lineSize = 1;
+
+                // Find the end of the line (i.e. where the next pixel is transparent, or else the very end of the row)
+                var lx = lineStartX;
+                while (true)
+                {
+                    if (lx + 1 == width || this.Pixels[lx + 1, y] == -1)
+                    {
+                        break;
+                    }
+
+                    lx++;
+                    lineSize++;
+                }
+
+                // Get the line data
+                var lineData = new byte[lineSize];
+                for (var i = 0; i < lineSize; i++)
+                {
+                    lineData[i] = (byte)this.Pixels[x, y];
+                    x++;
+                }
+
+                // Add the line to the final result
+                result.AddRange(BitConverter.GetBytes((Int16)(lineSize << 1)));         // SizeAndType
+                result.AddRange(BitConverter.GetBytes((Int16)lineStartX));              // StartX
+                result.AddRange(BitConverter.GetBytes((Int16)y));                       // StartY
+                result.AddRange(lineData);                                              // Line data
+
+                x++;
+            }
+        }
+
+        // Add a terminating Int16 == 0
+        result.AddRange(BitConverter.GetBytes((Int16)0));
+        return result.ToArray<byte>();
     }
-
-    p++;
 }
-
-var lineSize = lineEnd - lineStart + 1;
-var lineData = new byte[lineSize];
-for (int p = lineStart; p <= lineEnd; p++)
-{
-    lineData[p - lineStart] = (byte)this.Pixels[p, y];
-}
-*/
