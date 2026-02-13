@@ -50,6 +50,7 @@
             panel1 = new Panel();
             btnCreateDelt = new Button();
             saveDeltDialog = new SaveFileDialog();
+            btnCreateEmptyDelt = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSourceImage).BeginInit();
             groupBox2.SuspendLayout();
@@ -245,11 +246,22 @@
             saveDeltDialog.Filter = "DELT resource|*.delt;*.dlt";
             saveDeltDialog.Title = "Create DELT";
             // 
+            // btnCreateEmptyDelt
+            // 
+            btnCreateEmptyDelt.Location = new Point(956, 558);
+            btnCreateEmptyDelt.Name = "btnCreateEmptyDelt";
+            btnCreateEmptyDelt.Size = new Size(107, 62);
+            btnCreateEmptyDelt.TabIndex = 8;
+            btnCreateEmptyDelt.Text = "Create empty DELT";
+            btnCreateEmptyDelt.UseVisualStyleBackColor = true;
+            btnCreateEmptyDelt.Click += BtnCreateEmptyDelt_Click;
+            // 
             // CreateDeltWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1182, 953);
+            Controls.Add(btnCreateEmptyDelt);
             Controls.Add(btnCreateDelt);
             Controls.Add(panel1);
             Controls.Add(labelSourceImageSize);
@@ -295,5 +307,6 @@
         private Panel panel1;
         private Button btnCreateDelt;
         private SaveFileDialog saveDeltDialog;
+        private Button btnCreateEmptyDelt;
     }
 }

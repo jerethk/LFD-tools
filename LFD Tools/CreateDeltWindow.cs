@@ -155,7 +155,7 @@ namespace LFD_Tools
 
             var offsetX = this.radioBtnOffsetAuto.Checked ? this.autoOffsetX : (int)this.numericOffsetX.Value;
             var offsetY = this.radioBtnOffsetAuto.Checked ? this.autoOffsetY : (int)this.numericOffsetY.Value;
-            
+
             var newDelt = new Delt();
             newDelt.CreateFromBitmap(this.sourceImage, this.pltt, offsetX, offsetY, this.radioBtnOffsetManual.Checked);
 
@@ -167,6 +167,19 @@ namespace LFD_Tools
             {
                 MessageBox.Show($"Error saving DELT: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnCreateEmptyDelt_Click(object sender, EventArgs e)
+        {
+            var dlgResult = this.saveDeltDialog.ShowDialog();
+            if (dlgResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            var emptyDelt = new Delt();
+            emptyDelt.SetEmpty();
+            emptyDelt.SaveToFile(this.saveDeltDialog.FileName);
         }
     }
 }

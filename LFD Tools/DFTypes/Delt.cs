@@ -140,6 +140,15 @@ public class Delt
         this.Pixels = GetPixelsFromBitmap(bitmap, pltt, width, height, pixelsOffsetX, pixelsOffsetY);
     }
 
+    public void SetEmpty()
+    {
+        this.SizeX = -1;
+        this.SizeY = -1;
+        this.OffsetX = -1;
+        this.OffsetY = -1;
+        this.Pixels = new int[0, 0];
+    }
+
     public void SaveToFile(string fileName)
     {
         var data = this.ConvertPixelsToData2();
