@@ -42,6 +42,8 @@
             btnRemoveDelt = new Button();
             btnMoveUp = new Button();
             btnMoveDown = new Button();
+            button1 = new Button();
+            saveAnimDialog = new SaveFileDialog();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxDeltPreview).BeginInit();
             panel1.SuspendLayout();
@@ -68,7 +70,7 @@
             listBoxDelts.FormattingEnabled = true;
             listBoxDelts.Location = new Point(29, 91);
             listBoxDelts.Name = "listBoxDelts";
-            listBoxDelts.Size = new Size(200, 624);
+            listBoxDelts.Size = new Size(200, 664);
             listBoxDelts.TabIndex = 1;
             listBoxDelts.SelectedIndexChanged += ListBoxDelts_SelectedIndexChanged;
             // 
@@ -134,7 +136,7 @@
             panel1.Controls.Add(pictureBoxDeltPreview);
             panel1.Location = new Point(471, 188);
             panel1.Name = "panel1";
-            panel1.Size = new Size(640, 500);
+            panel1.Size = new Size(677, 567);
             panel1.TabIndex = 4;
             // 
             // btnRemoveDelt
@@ -145,7 +147,7 @@
             btnRemoveDelt.TabIndex = 5;
             btnRemoveDelt.Text = "Remove from list";
             btnRemoveDelt.UseVisualStyleBackColor = true;
-            btnRemoveDelt.Click += btnRemoveDelt_Click;
+            btnRemoveDelt.Click += BtnRemoveDelt_Click;
             // 
             // btnMoveUp
             // 
@@ -155,7 +157,7 @@
             btnMoveUp.TabIndex = 6;
             btnMoveUp.Text = "Move Up";
             btnMoveUp.UseVisualStyleBackColor = true;
-            btnMoveUp.Click += btnMoveUp_Click;
+            btnMoveUp.Click += BtnMoveUp_Click;
             // 
             // btnMoveDown
             // 
@@ -165,13 +167,30 @@
             btnMoveDown.TabIndex = 7;
             btnMoveDown.Text = "Move Down";
             btnMoveDown.UseVisualStyleBackColor = true;
-            btnMoveDown.Click += btnMoveDown_Click;
+            btnMoveDown.Click += BtnMoveDown_Click;
+            // 
+            // button1
+            // 
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Location = new Point(541, 803);
+            button1.Name = "button1";
+            button1.Size = new Size(137, 56);
+            button1.TabIndex = 8;
+            button1.Text = "Create ANIM";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += ButtonCreateAnim_Click;
+            // 
+            // saveAnimDialog
+            // 
+            saveAnimDialog.Filter = "ANIM file|*.anim;*.anm";
+            saveAnimDialog.Title = "Create ANIM";
             // 
             // CreateAnimWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1182, 753);
+            ClientSize = new Size(1182, 913);
+            Controls.Add(button1);
             Controls.Add(btnMoveDown);
             Controls.Add(btnMoveUp);
             Controls.Add(btnRemoveDelt);
@@ -180,7 +199,7 @@
             Controls.Add(listBoxDelts);
             Controls.Add(btnGetDelts);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1200, 800);
+            MinimumSize = new Size(1200, 960);
             Name = "CreateAnimWindow";
             Text = "Create ANIM";
             groupBox1.ResumeLayout(false);
@@ -204,5 +223,7 @@
         private Button btnRemoveDelt;
         private Button btnMoveUp;
         private Button btnMoveDown;
+        private Button button1;
+        private SaveFileDialog saveAnimDialog;
     }
 }

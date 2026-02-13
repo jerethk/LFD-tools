@@ -58,6 +58,21 @@ public class Anim
         }
     }
 
+    public static void SaveFromRawDelts(List<byte[]> delts, string filename)
+    {
+        using var fileStream = File.OpenWrite(filename);
+
+        using (var writer = new BinaryWriter(fileStream))
+        {
+            writer.Write((Int16)delts.Count);
+            for (var d = 0; d < delts.Count; d++)
+            {
+                writer.Write((Int32)delts[d].Length);
+                writer.Write(delts[d]);
+            }
+        }
+    }
+
     public record AnimDelt
     {
         public AnimDelt()

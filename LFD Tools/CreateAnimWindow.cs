@@ -170,7 +170,7 @@ namespace LFD_Tools
             }
         }
 
-        private void btnRemoveDelt_Click(object sender, EventArgs e)
+        private void BtnRemoveDelt_Click(object sender, EventArgs e)
         {
             if (this.sourceDelts == null || !this.sourceDelts.Any() || this.listBoxDelts.SelectedItem == null)
             {
@@ -188,7 +188,7 @@ namespace LFD_Tools
             this.PreviewDelt();
         }
 
-        private void btnMoveUp_Click(object sender, EventArgs e)
+        private void BtnMoveUp_Click(object sender, EventArgs e)
         {
             if (this.sourceDelts == null || !this.sourceDelts.Any() || this.listBoxDelts.SelectedItem == null)
             {
@@ -207,7 +207,7 @@ namespace LFD_Tools
             this.PreviewDelt();
         }
 
-        private void btnMoveDown_Click(object sender, EventArgs e)
+        private void BtnMoveDown_Click(object sender, EventArgs e)
         {
             if (this.sourceDelts == null || !this.sourceDelts.Any() || this.listBoxDelts.SelectedItem == null)
             {
@@ -224,6 +224,31 @@ namespace LFD_Tools
 
             this.sourceDeltsBindingSource?.ResetBindings(false);
             this.PreviewDelt();
+        }
+
+        private void ButtonCreateAnim_Click(object sender, EventArgs e)
+        {
+            if (this.sourceDelts == null || !this.sourceDelts.Any())
+            {
+                return;
+            }
+
+            var dlgResult = this.saveAnimDialog.ShowDialog();
+            if (dlgResult == DialogResult.OK)
+            {
+                var sourceDeltsData = this.sourceDelts
+                    .Where(sourceDelt => sourceDelt.Data != null)
+                    .Select(sourceDelt => sourceDelt.Data);
+
+                try
+                {
+                    Anim.SaveFromRawDelts(sourceDeltsData.ToList()!, this.saveAnimDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saving ANIM to file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
