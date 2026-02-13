@@ -730,9 +730,13 @@ namespace LFD_Tools
         private void toolStripMenuItemCreateDelt_Click(object sender, EventArgs e)
         {
             var deltWindow = new CreateDeltWindow();
-            {
-                deltWindow.Show(this);
-            }
+            deltWindow.Show(this);
+        }
+
+        private void toolStripMenuItemCreateAnim_Click(object sender, EventArgs e)
+        {
+            var animWindow = new CreateAnimWindow();
+            animWindow.Show(this);
         }
     }
 }

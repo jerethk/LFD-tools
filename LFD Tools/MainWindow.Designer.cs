@@ -65,9 +65,10 @@
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripButtonExport = new ToolStripButton();
             toolStripSeparator3 = new ToolStripSeparator();
-            savePngDialog = new SaveFileDialog();
             toolStripDropDownButtonCreate = new ToolStripDropDownButton();
             toolStripMenuItemCreateDelt = new ToolStripMenuItem();
+            savePngDialog = new SaveFileDialog();
+            toolStripMenuItemCreateAnim = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
@@ -368,21 +369,21 @@
             // toolStripMenuItemOpenPltt
             // 
             toolStripMenuItemOpenPltt.Name = "toolStripMenuItemOpenPltt";
-            toolStripMenuItemOpenPltt.Size = new Size(224, 26);
+            toolStripMenuItemOpenPltt.Size = new Size(195, 26);
             toolStripMenuItemOpenPltt.Text = "Open PLTT file";
             toolStripMenuItemOpenPltt.Click += ToolStripMenuItemOpenPltt_Click;
             // 
             // toolStripMenuItemOpenDelt
             // 
             toolStripMenuItemOpenDelt.Name = "toolStripMenuItemOpenDelt";
-            toolStripMenuItemOpenDelt.Size = new Size(224, 26);
+            toolStripMenuItemOpenDelt.Size = new Size(195, 26);
             toolStripMenuItemOpenDelt.Text = "Open DELT file";
             toolStripMenuItemOpenDelt.Click += ToolStripMenuItemOpenDelt_Click;
             // 
             // toolStripMenuItemOpenAnim
             // 
             toolStripMenuItemOpenAnim.Name = "toolStripMenuItemOpenAnim";
-            toolStripMenuItemOpenAnim.Size = new Size(224, 26);
+            toolStripMenuItemOpenAnim.Size = new Size(195, 26);
             toolStripMenuItemOpenAnim.Text = "Open ANIM file";
             toolStripMenuItemOpenAnim.Click += ToolStripMenuItemOpenAnim_Click;
             // 
@@ -405,16 +406,10 @@
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(6, 45);
             // 
-            // savePngDialog
-            // 
-            savePngDialog.DefaultExt = "PNG";
-            savePngDialog.Filter = "PNG images|*.png";
-            savePngDialog.Title = "Export Resource";
-            // 
             // toolStripDropDownButtonCreate
             // 
             toolStripDropDownButtonCreate.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButtonCreate.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemCreateDelt });
+            toolStripDropDownButtonCreate.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItemCreateDelt, toolStripMenuItemCreateAnim });
             toolStripDropDownButtonCreate.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButtonCreate.Name = "toolStripDropDownButtonCreate";
             toolStripDropDownButtonCreate.Size = new Size(130, 42);
@@ -426,6 +421,19 @@
             toolStripMenuItemCreateDelt.Size = new Size(224, 26);
             toolStripMenuItemCreateDelt.Text = "Create DELT";
             toolStripMenuItemCreateDelt.Click += toolStripMenuItemCreateDelt_Click;
+            // 
+            // savePngDialog
+            // 
+            savePngDialog.DefaultExt = "PNG";
+            savePngDialog.Filter = "PNG images|*.png";
+            savePngDialog.Title = "Export Resource";
+            // 
+            // toolStripMenuItemCreateAnim
+            // 
+            toolStripMenuItemCreateAnim.Name = "toolStripMenuItemCreateAnim";
+            toolStripMenuItemCreateAnim.Size = new Size(224, 26);
+            toolStripMenuItemCreateAnim.Text = "Create ANIM";
+            toolStripMenuItemCreateAnim.Click += toolStripMenuItemCreateAnim_Click;
             // 
             // MainWindow
             // 
@@ -491,5 +499,6 @@
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripDropDownButton toolStripDropDownButtonCreate;
         private ToolStripMenuItem toolStripMenuItemCreateDelt;
+        private ToolStripMenuItem toolStripMenuItemCreateAnim;
     }
 }
