@@ -9,13 +9,13 @@ namespace LFD_Tools
 {
     public partial class MainWindow : Form
     {
-        public MainWindow()
+        public MainWindow(string[] args)
         {
             InitializeComponent();
 
             lfdPanel.Visible = false;
             this.comboBoxScale.SelectedIndex = 1;   // 200%
-            this.comboBoxDisplayBackground.SelectedIndex = 0; // Black
+            this.comboBoxDisplayBackground.SelectedIndex = 2; // Grey
             this.toolStripButtonExport.Enabled = false;
 
             this.brfJanPltt = Pltt.GetBrfJanPltt();
@@ -23,6 +23,11 @@ namespace LFD_Tools
             this.labelPltt.Text = this.brfJanPltt.Name;
 
             this.currentMode = Mode.NIL;
+
+            if (args.Length > 0 )
+            {
+                this.ProcessCommandLineArgs(args);
+            }
         }
 
         private Mode currentMode;
@@ -42,6 +47,51 @@ namespace LFD_Tools
         private string? exportPath;
 
         private PlttViewer plttViewer = new();
+
+        private void ProcessCommandLineArgs(string[] args)
+        {
+            if (args.Length == 0) { return; }
+
+            var fileExt = Path.GetExtension(args[0]).ToUpperInvariant();
+
+            switch (fileExt)
+            {
+                case ".DELT":
+                case ".DLT":
+                    try
+                    {
+                        var delt = new Delt();
+                        delt.LoadFromFile(args[0]);
+                        this.delt = delt;
+                        this.SetupDelt();
+                        this.resourcePath = Path.GetDirectoryName(args[0]);
+                    }
+                    catch
+                    {
+                        // Do nothing
+                    }
+                    return;
+
+                case ".ANIM":
+                case ".ANM":
+                    try
+                    {
+                        var anim = new Anim();
+                        anim.LoadFromFile(args[0]);
+                        this.anim = anim;
+                        this.SetupAnim();
+                        this.resourcePath = Path.GetDirectoryName(args[0]);
+                    }
+                    catch
+                    {
+                        // Do nothing
+                    }
+                    return;
+                
+                default:
+                    return;
+            }
+        }
 
         private void ToolStripButtonOpenLFD_Click(object sender, EventArgs e)
         {
