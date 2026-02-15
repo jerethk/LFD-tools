@@ -131,12 +131,13 @@
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(pictureBoxDeltPreview);
             panel1.Location = new Point(471, 188);
             panel1.Name = "panel1";
-            panel1.Size = new Size(677, 567);
+            panel1.Size = new Size(677, 642);
             panel1.TabIndex = 4;
             // 
             // btnRemoveDelt
@@ -172,7 +173,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(541, 803);
+            button1.Location = new Point(1011, 57);
             button1.Name = "button1";
             button1.Size = new Size(137, 56);
             button1.TabIndex = 8;
@@ -189,7 +190,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1182, 913);
+            ClientSize = new Size(1182, 873);
             Controls.Add(button1);
             Controls.Add(btnMoveDown);
             Controls.Add(btnMoveUp);
@@ -199,7 +200,7 @@
             Controls.Add(listBoxDelts);
             Controls.Add(btnGetDelts);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1200, 960);
+            MinimumSize = new Size(1200, 920);
             Name = "CreateAnimWindow";
             Text = "Create ANIM";
             groupBox1.ResumeLayout(false);

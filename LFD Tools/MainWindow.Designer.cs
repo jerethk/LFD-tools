@@ -40,7 +40,6 @@
             checkBoxMultiSelect = new CheckBox();
             listBoxDelts = new ListBox();
             label2 = new Label();
-            label3 = new Label();
             labelPltt = new Label();
             lfdPanel = new Panel();
             btnOpenResource = new Button();
@@ -48,6 +47,7 @@
             labelLfd = new Label();
             label4 = new Label();
             mainPanel = new Panel();
+            groupBox1 = new GroupBox();
             btnViewPltt = new Button();
             checkBoxSubtractOffsets = new CheckBox();
             label6 = new Label();
@@ -67,12 +67,13 @@
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripDropDownButtonCreate = new ToolStripDropDownButton();
             toolStripMenuItemCreateDelt = new ToolStripMenuItem();
-            savePngDialog = new SaveFileDialog();
             toolStripMenuItemCreateAnim = new ToolStripMenuItem();
+            savePngDialog = new SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)displayBox).BeginInit();
             displayPanel.SuspendLayout();
             lfdPanel.SuspendLayout();
             mainPanel.SuspendLayout();
+            groupBox1.SuspendLayout();
             toolStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -138,7 +139,7 @@
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
-            textBoxInfo.Size = new Size(256, 173);
+            textBoxInfo.Size = new Size(262, 173);
             textBoxInfo.TabIndex = 8;
             // 
             // checkBoxMultiSelect
@@ -166,26 +167,17 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(36, 103);
+            label2.Location = new Point(36, 105);
             label2.Name = "label2";
             label2.Size = new Size(99, 20);
             label2.TabIndex = 12;
             label2.Text = "Resource Info";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(36, 21);
-            label3.Name = "label3";
-            label3.Size = new Size(91, 20);
-            label3.TabIndex = 13;
-            label3.Text = "Current PLTT";
-            // 
             // labelPltt
             // 
             labelPltt.AutoSize = true;
             labelPltt.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPltt.Location = new Point(36, 52);
+            labelPltt.Location = new Point(17, 31);
             labelPltt.Name = "labelPltt";
             labelPltt.Size = new Size(73, 20);
             labelPltt.TabIndex = 14;
@@ -247,14 +239,12 @@
             // mainPanel
             // 
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
-            mainPanel.Controls.Add(btnViewPltt);
+            mainPanel.Controls.Add(groupBox1);
             mainPanel.Controls.Add(checkBoxSubtractOffsets);
             mainPanel.Controls.Add(label6);
             mainPanel.Controls.Add(comboBoxDisplayBackground);
             mainPanel.Controls.Add(label5);
             mainPanel.Controls.Add(labelResourceName);
-            mainPanel.Controls.Add(label3);
-            mainPanel.Controls.Add(labelPltt);
             mainPanel.Controls.Add(label2);
             mainPanel.Controls.Add(listBoxDelts);
             mainPanel.Controls.Add(displayPanel);
@@ -268,11 +258,22 @@
             mainPanel.Size = new Size(1259, 828);
             mainPanel.TabIndex = 15;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(labelPltt);
+            groupBox1.Controls.Add(btnViewPltt);
+            groupBox1.Location = new Point(36, 21);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(262, 68);
+            groupBox1.TabIndex = 21;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Current PLTT";
+            // 
             // btnViewPltt
             // 
-            btnViewPltt.Location = new Point(235, 21);
+            btnViewPltt.Location = new Point(198, 18);
             btnViewPltt.Name = "btnViewPltt";
-            btnViewPltt.Size = new Size(57, 51);
+            btnViewPltt.Size = new Size(57, 40);
             btnViewPltt.TabIndex = 20;
             btnViewPltt.Text = "View";
             btnViewPltt.UseVisualStyleBackColor = true;
@@ -418,22 +419,22 @@
             // toolStripMenuItemCreateDelt
             // 
             toolStripMenuItemCreateDelt.Name = "toolStripMenuItemCreateDelt";
-            toolStripMenuItemCreateDelt.Size = new Size(224, 26);
+            toolStripMenuItemCreateDelt.Size = new Size(177, 26);
             toolStripMenuItemCreateDelt.Text = "Create DELT";
             toolStripMenuItemCreateDelt.Click += toolStripMenuItemCreateDelt_Click;
+            // 
+            // toolStripMenuItemCreateAnim
+            // 
+            toolStripMenuItemCreateAnim.Name = "toolStripMenuItemCreateAnim";
+            toolStripMenuItemCreateAnim.Size = new Size(177, 26);
+            toolStripMenuItemCreateAnim.Text = "Create ANIM";
+            toolStripMenuItemCreateAnim.Click += toolStripMenuItemCreateAnim_Click;
             // 
             // savePngDialog
             // 
             savePngDialog.DefaultExt = "PNG";
             savePngDialog.Filter = "PNG images|*.png";
             savePngDialog.Title = "Export Resource";
-            // 
-            // toolStripMenuItemCreateAnim
-            // 
-            toolStripMenuItemCreateAnim.Name = "toolStripMenuItemCreateAnim";
-            toolStripMenuItemCreateAnim.Size = new Size(224, 26);
-            toolStripMenuItemCreateAnim.Text = "Create ANIM";
-            toolStripMenuItemCreateAnim.Click += toolStripMenuItemCreateAnim_Click;
             // 
             // MainWindow
             // 
@@ -446,13 +447,15 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1500, 920);
             Name = "MainWindow";
-            Text = "LFD Tools version 0.9";
+            Text = "LFD Tools version 1.0";
             ((System.ComponentModel.ISupportInitialize)displayBox).EndInit();
             displayPanel.ResumeLayout(false);
             lfdPanel.ResumeLayout(false);
             lfdPanel.PerformLayout();
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
             ResumeLayout(false);
@@ -471,7 +474,6 @@
         private CheckBox checkBoxMultiSelect;
         private ListBox listBoxDelts;
         private Label label2;
-        private Label label3;
         private Label labelPltt;
         private Panel mainPanel;
         private Panel lfdPanel;
@@ -500,5 +502,6 @@
         private ToolStripDropDownButton toolStripDropDownButtonCreate;
         private ToolStripMenuItem toolStripMenuItemCreateDelt;
         private ToolStripMenuItem toolStripMenuItemCreateAnim;
+        private GroupBox groupBox1;
     }
 }

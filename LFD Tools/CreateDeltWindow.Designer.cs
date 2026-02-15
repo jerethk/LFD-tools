@@ -233,9 +233,10 @@
             // 
             // btnCreateDelt
             // 
-            btnCreateDelt.Location = new Point(956, 460);
+            btnCreateDelt.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnCreateDelt.Location = new Point(944, 460);
             btnCreateDelt.Name = "btnCreateDelt";
-            btnCreateDelt.Size = new Size(107, 62);
+            btnCreateDelt.Size = new Size(119, 62);
             btnCreateDelt.TabIndex = 7;
             btnCreateDelt.Text = "Create DELT";
             btnCreateDelt.UseVisualStyleBackColor = true;
@@ -248,9 +249,10 @@
             // 
             // btnCreateEmptyDelt
             // 
-            btnCreateEmptyDelt.Location = new Point(956, 558);
+            btnCreateEmptyDelt.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnCreateEmptyDelt.Location = new Point(944, 558);
             btnCreateEmptyDelt.Name = "btnCreateEmptyDelt";
-            btnCreateEmptyDelt.Size = new Size(107, 62);
+            btnCreateEmptyDelt.Size = new Size(119, 62);
             btnCreateEmptyDelt.TabIndex = 8;
             btnCreateEmptyDelt.Text = "Create empty DELT";
             btnCreateEmptyDelt.UseVisualStyleBackColor = true;
